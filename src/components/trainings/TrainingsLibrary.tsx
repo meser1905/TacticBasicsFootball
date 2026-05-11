@@ -142,12 +142,17 @@ function CategoryChip({
       className={cn(
         "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition",
         active
-          ? "border-primary bg-primary/15 text-primary-foreground"
+          ? "border-primary bg-primary text-primary-foreground shadow-sm"
           : "border-border bg-card text-muted-foreground hover:border-foreground/30 hover:text-foreground",
       )}
     >
       {label}
-      <span className={cn("rounded-full px-1.5 text-[10px]", active ? "bg-primary/30" : "bg-secondary")}>
+      <span
+        className={cn(
+          "rounded-full px-1.5 text-[10px]",
+          active ? "bg-primary-foreground/20 text-primary-foreground" : "bg-secondary",
+        )}
+      >
         {count}
       </span>
     </button>
