@@ -16,7 +16,7 @@ export function Footer() {
                 alt="TacticBasicsFootball"
                 width={520}
                 height={195}
-                className="h-10 w-auto"
+                className="h-16 w-auto sm:h-20"
               />
             </Link>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
