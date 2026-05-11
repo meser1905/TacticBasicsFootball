@@ -115,8 +115,18 @@ function inferEquipmentTypeFromName(name: string): EquipmentType | null {
   const n = name.toLowerCase();
   if (n.includes("escalera")) return "ladder";
   if (n.includes("valla")) return "hurdle";
-  if (n.includes("mini-porter") || n.includes("mini porter") || n.includes("portera chica") || n.includes("porteria chica") || n.includes("porteria peq"))
+  if (
+    n.includes("mini-porter") ||
+    n.includes("mini porter") ||
+    n.includes("portera chica") ||
+    n.includes("porteria chica") ||
+    n.includes("porteria peq") ||
+    n.includes("porteria de futsal")
+  )
     return "minigoal";
+  if (n.includes("maniqui") || n.includes("dummy")) return "mannequin";
+  if (n.includes("banderin") || n.includes("bandera")) return "flag";
+  if (n.includes("balon") || n.includes("pelota")) return "ball";
   if (n.includes("cono alto") || n.includes("pica")) return "tallcone";
   if (n.includes("cono")) return "cone";
   return null;

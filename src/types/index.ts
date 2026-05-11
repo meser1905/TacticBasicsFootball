@@ -107,7 +107,15 @@ export type Training = {
   indicators?: readonly string[];
 };
 
-export type EquipmentType = "cone" | "tallcone" | "hurdle" | "minigoal" | "ladder";
+export type EquipmentType =
+  | "cone"
+  | "tallcone"
+  | "hurdle"
+  | "minigoal"
+  | "ladder"
+  | "ball"
+  | "mannequin"
+  | "flag";
 
 export type EquipmentItem = {
   id: string;
@@ -115,6 +123,7 @@ export type EquipmentItem = {
   px: number;
   py: number;
 };
+
 
 export type DrawingTool = "none" | "marker" | "cone" | "eraser";
 

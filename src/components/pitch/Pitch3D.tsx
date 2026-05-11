@@ -326,6 +326,60 @@ function EquipmentMesh({ item, dims }: { item: EquipmentItem; dims: PitchDimensi
       </group>
     );
   }
+  if (item.type === "ball") {
+    return (
+      <group position={[worldX, 0.4 * scale, worldZ]} onClick={onClick}>
+        <mesh castShadow>
+          <sphereGeometry args={[0.4 * scale, 18, 18]} />
+          <meshStandardMaterial color="#ffffff" roughness={0.45} />
+        </mesh>
+        <mesh position={[0.18 * scale, 0.05 * scale, 0]}>
+          <sphereGeometry args={[0.1 * scale, 6, 6]} />
+          <meshStandardMaterial color="#1a1a1a" />
+        </mesh>
+        <mesh position={[-0.16 * scale, -0.08 * scale, 0.1 * scale]}>
+          <sphereGeometry args={[0.08 * scale, 6, 6]} />
+          <meshStandardMaterial color="#1a1a1a" />
+        </mesh>
+      </group>
+    );
+  }
+  if (item.type === "mannequin") {
+    return (
+      <group position={[worldX, 0, worldZ]} onClick={onClick}>
+        <mesh position={[0, 0.05 * scale, 0]}>
+          <cylinderGeometry args={[0.55 * scale, 0.55 * scale, 0.1 * scale, 12]} />
+          <meshStandardMaterial color="#1a1a1a" />
+        </mesh>
+        <mesh position={[0, 1.2 * scale, 0]} castShadow>
+          <cylinderGeometry args={[0.35 * scale, 0.4 * scale, 2.1 * scale, 12]} />
+          <meshStandardMaterial color="#9ca3af" roughness={0.7} />
+        </mesh>
+        <mesh position={[0, 2.5 * scale, 0]} castShadow>
+          <sphereGeometry args={[0.32 * scale, 16, 16]} />
+          <meshStandardMaterial color="#9ca3af" roughness={0.7} />
+        </mesh>
+      </group>
+    );
+  }
+  if (item.type === "flag") {
+    return (
+      <group position={[worldX, 0, worldZ]} onClick={onClick}>
+        <mesh position={[0, 0.05 * scale, 0]}>
+          <cylinderGeometry args={[0.32 * scale, 0.32 * scale, 0.1 * scale, 10]} />
+          <meshStandardMaterial color="#1a1a1a" />
+        </mesh>
+        <mesh position={[0, 1.4 * scale, 0]} castShadow>
+          <cylinderGeometry args={[0.05 * scale, 0.06 * scale, 2.6 * scale, 8]} />
+          <meshStandardMaterial color="#9ca3af" />
+        </mesh>
+        <mesh position={[0.45 * scale, 2.4 * scale, 0]} castShadow>
+          <boxGeometry args={[0.9 * scale, 0.55 * scale, 0.04 * scale]} />
+          <meshStandardMaterial color="#ef4444" side={2} />
+        </mesh>
+      </group>
+    );
+  }
   return null;
 }
 
