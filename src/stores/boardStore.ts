@@ -12,12 +12,15 @@ type BoardState = {
   tool: DrawingTool;
   color: string;
   selectedEquipmentType: EquipmentType;
+  paletteDragType: EquipmentType | null;
   strokes: DrawingStroke[];
   activeStroke: DrawingStroke | null;
   equipment: EquipmentItem[];
   setTool: (t: DrawingTool) => void;
   setColor: (c: string) => void;
   selectEquipmentType: (t: EquipmentType) => void;
+  startPaletteDrag: (t: EquipmentType) => void;
+  cancelPaletteDrag: () => void;
   startStroke: (point: { x: number; y: number }) => void;
   appendStrokePoint: (point: { x: number; y: number }) => void;
   finishStroke: () => void;
@@ -37,12 +40,15 @@ export const useBoardStore = create<BoardState>((set, get) => ({
   tool: "none",
   color: PALETTE_DEFAULT,
   selectedEquipmentType: "cone",
+  paletteDragType: null,
   strokes: [],
   activeStroke: null,
   equipment: [],
   setTool: (tool) => set({ tool }),
   setColor: (color) => set({ color }),
   selectEquipmentType: (type) => set({ selectedEquipmentType: type, tool: "cone" }),
+  startPaletteDrag: (type) => set({ paletteDragType: type }),
+  cancelPaletteDrag: () => set({ paletteDragType: null }),
   startStroke: (point) => {
     strokeCounter += 1;
     set({

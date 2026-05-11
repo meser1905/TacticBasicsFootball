@@ -6,9 +6,11 @@ import { FormationPicker } from "@/components/formations/FormationPicker";
 import { PlayerEditDialog } from "@/components/players/PlayerEditDialog";
 import { PitchToolbar } from "@/components/pitch/PitchToolbar";
 import { EquipmentPalette } from "@/components/pitch/EquipmentPalette";
+import { PaletteDragGhost } from "@/components/pitch/PaletteDragGhost";
 import { EditorToolbar } from "./EditorToolbar";
 import { useEditorStore } from "@/stores/editorStore";
 import { usePlayersStore } from "@/stores/playersStore";
+import { usePaletteDragDrop } from "@/hooks/usePaletteDragDrop";
 import { formations } from "@/lib/formations";
 
 export function Editor() {
@@ -17,6 +19,7 @@ export function Editor() {
   const pitchMode = useEditorStore((s) => s.pitchMode);
   const viewMode = useEditorStore((s) => s.viewMode);
   const soloTeam = useEditorStore((s) => s.soloTeam);
+  usePaletteDragDrop();
 
   const home = formations.find((f) => f.id === homeId);
   const away = formations.find((f) => f.id === awayId);
@@ -43,6 +46,7 @@ export function Editor() {
       </div>
 
       <PlayerEditDialog />
+      <PaletteDragGhost />
     </div>
   );
 }

@@ -6,9 +6,8 @@ import { cn } from "@/lib/utils";
 import type { EquipmentType } from "@/types";
 
 export function EquipmentPalette() {
-  const tool = useBoardStore((s) => s.tool);
-  const selectedType = useBoardStore((s) => s.selectedEquipmentType);
-  const selectEquipmentType = useBoardStore((s) => s.selectEquipmentType);
+  const startPaletteDrag = useBoardStore((s) => s.startPaletteDrag);
+  const paletteDragType = useBoardStore((s) => s.paletteDragType);
 
   return (
     <div className="flex flex-wrap items-center gap-2 rounded-lg border border-border bg-card/50 p-2">
@@ -21,13 +20,13 @@ export function EquipmentPalette() {
             key={item.type}
             type={item.type}
             label={item.label}
-            active={tool === "cone" && selectedType === item.type}
-            onSelect={() => selectEquipmentType(item.type)}
+            isDragging={paletteDragType === item.type}
+            onStartDrag={() => startPaletteDrag(item.type)}
           />
         ))}
       </div>
       <span className="ml-2 hidden text-[11px] text-muted-foreground sm:inline">
-        Cliclea uno y despues click en la cancha para colocarlo
+        Manten apretado y arrastra a la cancha para colocarlo
       </span>
     </div>
   );
@@ -36,37 +35,48 @@ export function EquipmentPalette() {
 function PaletteItem({
   type,
   label,
-  active,
-  onSelect,
+  isDragging,
+  onStartDrag,
 }: {
   type: EquipmentType;
   label: string;
-  active: boolean;
-  onSelect: () => void;
+  isDragging: boolean;
+  onStartDrag: () => void;
 }) {
+  const onPointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    onStartDrag();
+  };
+
   return (
     <button
-      onClick={onSelect}
-      aria-pressed={active}
-      title={label}
+      onPointerDown={onPointerDown}
+      onContextMenu={(e) => e.preventDefault()}
+      aria-pressed={isDragging}
+      title={`Arrastrar ${label} a la cancha`}
       className={cn(
-        "group flex flex-col items-center justify-end gap-1 rounded-md border px-2.5 pb-1.5 pt-2 transition",
-        active
+        "group flex select-none flex-col items-center justify-end gap-1 rounded-md border px-2.5 pb-1.5 pt-2 transition",
+        isDragging
           ? "border-primary bg-primary/15 shadow-inner"
           : "border-border bg-background/60 hover:border-foreground/30 hover:bg-secondary",
       )}
+      style={{ touchAction: "none", cursor: isDragging ? "grabbing" : "grab" }}
     >
       <svg
         viewBox="-6 -8 12 12"
         className="h-9 w-9"
         preserveAspectRatio="xMidYMid meet"
+        style={{ pointerEvents: "none" }}
       >
         <EquipmentShape type={type} cx={0} cy={0} size={2.6} />
       </svg>
       <span
         className={cn(
           "text-[10px] font-semibold uppercase tracking-wider",
-          active ? "text-primary-foreground" : "text-muted-foreground group-hover:text-foreground",
+          isDragging
+            ? "text-primary-foreground"
+            : "text-muted-foreground group-hover:text-foreground",
         )}
       >
         {label}

@@ -107,6 +107,7 @@ export function Pitch2D() {
         preserveAspectRatio="xMidYMid meet"
         role="img"
         aria-label={`Cancha tactica ${dims.label}`}
+        data-pitch-svg="true"
         style={{ cursor: svgCursor, touchAction: tool !== "none" ? "none" : "auto" }}
         onPointerDown={onSvgPointerDown}
         onPointerMove={onSvgPointerMove}
@@ -126,7 +127,7 @@ export function Pitch2D() {
             <rect width={W} height={H / 20} fill="var(--pitch-dark)" opacity={0.35} />
           </pattern>
         </defs>
-        <g ref={contentRef} transform={contentTransform}>
+        <g ref={contentRef} transform={contentTransform} data-pitch-content="true">
           <rect width={W} height={H} fill="url(#grass-stripes)" />
           <PitchLines dimensions={dims} />
           {showZones && <ZonesOverlay dimensions={dims} />}
