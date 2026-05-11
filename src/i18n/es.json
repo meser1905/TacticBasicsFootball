@@ -1,0 +1,40 @@
+{
+  "app": {
+    "name": "TacticBasicsFootball",
+    "tagline": "Pizarra tactica de futbol gratis y open source",
+    "underConstruction": "En construccion"
+  },
+  "nav": {
+    "editor": "Editor",
+    "trainings": "Entrenamientos",
+    "formations": "Formaciones",
+    "share": "Compartir",
+    "github": "GitHub"
+  },
+  "editor": {
+    "togglePitch": "Cambiar a {mode}",
+    "mode2D": "2D",
+    "mode3D": "3D",
+    "play": "Reproducir",
+    "pause": "Pausar",
+    "addKeyframe": "Agregar keyframe",
+    "deleteKeyframe": "Borrar keyframe",
+    "speed": "Velocidad"
+  },
+  "formations": {
+    "title": "Formaciones",
+    "search": "Buscar formacion",
+    "strengths": "Fortalezas",
+    "weaknesses": "Debilidades",
+    "famousFor": "Usada por"
+  },
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Borrar",
+    "edit": "Editar",
+    "export": "Exportar",
+    "share": "Compartir",
+    "loading": "Cargando..."
+  }
+}

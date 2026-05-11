@@ -1,0 +1,40 @@
+{
+  "app": {
+    "name": "TacticBasicsFootball",
+    "tagline": "Free and open-source football tactical board",
+    "underConstruction": "Under construction"
+  },
+  "nav": {
+    "editor": "Editor",
+    "trainings": "Trainings",
+    "formations": "Formations",
+    "share": "Share",
+    "github": "GitHub"
+  },
+  "editor": {
+    "togglePitch": "Switch to {mode}",
+    "mode2D": "2D",
+    "mode3D": "3D",
+    "play": "Play",
+    "pause": "Pause",
+    "addKeyframe": "Add keyframe",
+    "deleteKeyframe": "Delete keyframe",
+    "speed": "Speed"
+  },
+  "formations": {
+    "title": "Formations",
+    "search": "Search formation",
+    "strengths": "Strengths",
+    "weaknesses": "Weaknesses",
+    "famousFor": "Used by"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "export": "Export",
+    "share": "Share",
+    "loading": "Loading..."
+  }
+}

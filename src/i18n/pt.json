@@ -1,0 +1,40 @@
+{
+  "app": {
+    "name": "TacticBasicsFootball",
+    "tagline": "Quadro tatico de futebol gratis e open source",
+    "underConstruction": "Em construcao"
+  },
+  "nav": {
+    "editor": "Editor",
+    "trainings": "Treinos",
+    "formations": "Formacoes",
+    "share": "Compartilhar",
+    "github": "GitHub"
+  },
+  "editor": {
+    "togglePitch": "Mudar para {mode}",
+    "mode2D": "2D",
+    "mode3D": "3D",
+    "play": "Reproduzir",
+    "pause": "Pausar",
+    "addKeyframe": "Adicionar keyframe",
+    "deleteKeyframe": "Apagar keyframe",
+    "speed": "Velocidade"
+  },
+  "formations": {
+    "title": "Formacoes",
+    "search": "Buscar formacao",
+    "strengths": "Pontos fortes",
+    "weaknesses": "Pontos fracos",
+    "famousFor": "Usada por"
+  },
+  "common": {
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "delete": "Apagar",
+    "edit": "Editar",
+    "export": "Exportar",
+    "share": "Compartilhar",
+    "loading": "Carregando..."
+  }
+}

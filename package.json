@@ -1,0 +1,78 @@
+{
+  "name": "tactic-basics-football",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Pizarra tactica de futbol gratis, open source y moderna para entrenadores. Editor 2D y 3D, grabacion de jugadas, biblioteca de entrenamientos.",
+  "license": "MIT",
+  "author": "meser1905",
+  "homepage": "https://github.com/meser1905/tactic-basics-football",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/meser1905/tactic-basics-football.git"
+  },
+  "bugs": {
+    "url": "https://github.com/meser1905/tactic-basics-football/issues"
+  },
+  "keywords": [
+    "football",
+    "soccer",
+    "tactics",
+    "coaching",
+    "tactical-board",
+    "formations",
+    "training",
+    "open-source",
+    "nextjs",
+    "react",
+    "threejs",
+    "typescript"
+  ],
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
+    "prepare": "echo 'skipping prepare'"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.469.0",
+    "next": "^15.1.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^2.6.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@tailwindcss/postcss": "^4.0.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@types/node": "^22.10.5",
+    "@types/react": "^19.0.4",
+    "@types/react-dom": "^19.0.2",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.18.0",
+    "eslint-config-next": "^15.1.4",
+    "jsdom": "^25.0.1",
+    "postcss": "^8.5.1",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.9",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@10.0.0"
+}
