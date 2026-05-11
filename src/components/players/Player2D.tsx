@@ -1,27 +1,27 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { usePlayersStore } from "@/stores/playersStore";
 import { useEditorStore } from "@/stores/editorStore";
 import type { Player } from "@/types";
-
-const PITCH_W = 68;
-const PITCH_H = 105;
-const PLAYER_R = 2.4;
+import type { PitchDimensions } from "@/lib/pitchDimensions";
 
 type Props = {
   player: Player;
+  dimensions: PitchDimensions;
 };
 
-export function Player2D({ player }: Props) {
+export function Player2D({ player, dimensions }: Props) {
   const movePlayer = usePlayersStore((s) => s.movePlayer);
   const setSelectedPlayer = useEditorStore((s) => s.setSelectedPlayer);
   const [dragging, setDragging] = useState(false);
-  const groupRef = useRef<SVGGElement>(null);
-  const moved = useRef(false);
 
-  const cx = player.px * PITCH_W;
-  const cy = player.py * PITCH_H;
+  const W = dimensions.width;
+  const H = dimensions.length;
+  const radius = Math.min(W, H) * 0.035;
+
+  const cx = player.px * W;
+  const cy = player.py * H;
 
   const fill =
     player.team === "home" ? "oklch(0.55 0.18 245)" : "oklch(0.58 0.18 25)";
@@ -30,13 +30,11 @@ export function Player2D({ player }: Props) {
   const onPointerDown = (e: React.PointerEvent<SVGGElement>) => {
     if (e.button === 2) return;
     setDragging(true);
-    moved.current = false;
     e.currentTarget.setPointerCapture(e.pointerId);
   };
 
   const onPointerMove = (e: React.PointerEvent<SVGGElement>) => {
     if (!dragging) return;
-    moved.current = true;
     const svg = e.currentTarget.ownerSVGElement;
     if (!svg) return;
     const pt = svg.createSVGPoint();
@@ -45,7 +43,7 @@ export function Player2D({ player }: Props) {
     const ctm = e.currentTarget.getScreenCTM();
     if (!ctm) return;
     const local = pt.matrixTransform(ctm.inverse());
-    movePlayer(player.id, local.x / PITCH_W, local.y / PITCH_H);
+    movePlayer(player.id, local.x / W, local.y / H);
   };
 
   const onPointerUp = (e: React.PointerEvent<SVGGElement>) => {
@@ -66,10 +64,12 @@ export function Player2D({ player }: Props) {
   };
 
   const label = player.name ? player.name : player.role;
+  const numberFontSize = radius * 1.05;
+  const labelFontSize = radius * 0.7;
+  const strokeW = radius * 0.13;
 
   return (
     <g
-      ref={groupRef}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
@@ -80,18 +80,18 @@ export function Player2D({ player }: Props) {
     >
       <circle
         cx={cx}
-        cy={cy + PLAYER_R * 0.18}
-        r={PLAYER_R * 0.95}
+        cy={cy + radius * 0.2}
+        r={radius * 0.95}
         fill="black"
-        opacity={dragging ? 0.4 : 0.22}
+        opacity={dragging ? 0.42 : 0.22}
       />
       <circle
         cx={cx}
         cy={cy}
-        r={PLAYER_R}
+        r={radius}
         fill={fill}
         stroke={stroke}
-        strokeWidth={0.3}
+        strokeWidth={strokeW}
         opacity={dragging ? 0.92 : 1}
       />
       <text
@@ -100,7 +100,7 @@ export function Player2D({ player }: Props) {
         textAnchor="middle"
         dominantBaseline="central"
         fill="white"
-        fontSize={2.4}
+        fontSize={numberFontSize}
         fontWeight={700}
         pointerEvents="none"
         style={{ userSelect: "none" }}
@@ -109,10 +109,10 @@ export function Player2D({ player }: Props) {
       </text>
       <text
         x={cx}
-        y={cy + PLAYER_R + 1.8}
+        y={cy + radius + labelFontSize * 0.9}
         textAnchor="middle"
         fill={stroke}
-        fontSize={1.6}
+        fontSize={labelFontSize}
         fontWeight={600}
         pointerEvents="none"
         opacity={0.92}

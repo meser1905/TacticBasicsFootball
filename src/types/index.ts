@@ -7,7 +7,7 @@ export type Side = "home" | "away";
 
 export type PitchMode = "2d" | "3d";
 
-export type PitchSize = "11" | "8" | "7" | "5";
+export type PitchFormat = "football11" | "football8" | "football7" | "futsal";
 
 export type PreferredFoot = "left" | "right" | "both";
 
@@ -26,7 +26,10 @@ export type PlayerRole =
   | "LW"
   | "RW"
   | "SS"
-  | "CF";
+  | "CF"
+  | "ALA"
+  | "FIJO"
+  | "PIV";
 
 export type FormationCategory =
   | "football11-classic"
@@ -43,20 +46,6 @@ export type FormationSlot = {
   y: number;
 };
 
-export type FormationSlots11 = readonly [
-  FormationSlot,
-  FormationSlot,
-  FormationSlot,
-  FormationSlot,
-  FormationSlot,
-  FormationSlot,
-  FormationSlot,
-  FormationSlot,
-  FormationSlot,
-  FormationSlot,
-  FormationSlot,
-];
-
 export type Formation = {
   id: string;
   name: string;
@@ -64,7 +53,7 @@ export type Formation = {
   description: string;
   strengths: readonly string[];
   weaknesses: readonly string[];
-  slots: FormationSlots11;
+  slots: readonly FormationSlot[];
 };
 
 export type Player = {

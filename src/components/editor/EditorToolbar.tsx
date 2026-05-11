@@ -1,12 +1,26 @@
 "use client";
 
-import { Box, Square, RotateCw, Users, User, RefreshCw } from "lucide-react";
+import { useState } from "react";
+import {
+  Box,
+  Square,
+  RotateCw,
+  Users,
+  User,
+  RefreshCw,
+  Grid3x3,
+  ChevronDown,
+} from "lucide-react";
 import { useEditorStore } from "@/stores/editorStore";
 import { usePlayersStore } from "@/stores/playersStore";
 import { findFormationById } from "@/lib/formations";
+import { PITCH_DIMENSIONS, PITCH_FORMATS } from "@/lib/pitchDimensions";
 import { cn } from "@/lib/utils";
+import type { PitchFormat } from "@/types";
 
 export function EditorToolbar() {
+  const pitchFormat = useEditorStore((s) => s.pitchFormat);
+  const setPitchFormat = useEditorStore((s) => s.setPitchFormat);
   const pitchMode = useEditorStore((s) => s.pitchMode);
   const togglePitchMode = useEditorStore((s) => s.togglePitchMode);
   const orientation = useEditorStore((s) => s.pitchOrientation);
@@ -15,6 +29,8 @@ export function EditorToolbar() {
   const setViewMode = useEditorStore((s) => s.setViewMode);
   const soloTeam = useEditorStore((s) => s.soloTeam);
   const setSoloTeam = useEditorStore((s) => s.setSoloTeam);
+  const showZones = useEditorStore((s) => s.showZones);
+  const toggleZones = useEditorStore((s) => s.toggleZones);
 
   const homeId = usePlayersStore((s) => s.homeFormationId);
   const awayId = usePlayersStore((s) => s.awayFormationId);
@@ -29,6 +45,8 @@ export function EditorToolbar() {
 
   return (
     <div className="flex flex-wrap items-center gap-2 rounded-lg border border-border bg-card/50 p-2">
+      <FormatSelector current={pitchFormat} onChange={setPitchFormat} />
+
       <ToggleGroup label="Vista">
         <ToggleButton
           active={pitchMode === "2d"}
@@ -45,17 +63,26 @@ export function EditorToolbar() {
       </ToggleGroup>
 
       {pitchMode === "2d" && (
-        <ToggleGroup label="Orientacion">
+        <ToggleGroup label="Orient">
           <button
             onClick={togglePitchOrientation}
             className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium text-foreground transition hover:bg-secondary"
             aria-label="Cambiar orientacion"
           >
             <RotateCw className="h-3.5 w-3.5" />
-            <span className="capitalize">{orientation === "vertical" ? "Vertical" : "Horizontal"}</span>
+            <span className="capitalize">{orientation === "vertical" ? "Vert" : "Horiz"}</span>
           </button>
         </ToggleGroup>
       )}
+
+      <ToggleGroup label="Zonas">
+        <ToggleButton
+          active={showZones}
+          onClick={toggleZones}
+          icon={<Grid3x3 className="h-3.5 w-3.5" />}
+          label={showZones ? "ON" : "OFF"}
+        />
+      </ToggleGroup>
 
       <ToggleGroup label="Modo">
         <ToggleButton
@@ -83,7 +110,7 @@ export function EditorToolbar() {
           <ToggleButton
             active={soloTeam === "away"}
             onClick={() => setSoloTeam("away")}
-            label="Visitante"
+            label="Visit."
             accent="red"
           />
         </ToggleGroup>
@@ -100,6 +127,69 @@ export function EditorToolbar() {
           Reset
         </button>
       </div>
+    </div>
+  );
+}
+
+function FormatSelector({
+  current,
+  onChange,
+}: {
+  current: PitchFormat;
+  onChange: (f: PitchFormat) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const currentDims = PITCH_DIMENSIONS[current];
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="inline-flex items-center gap-2 rounded-md border border-primary/40 bg-primary/15 px-3 py-1.5 text-xs font-bold text-primary-foreground transition hover:bg-primary/25"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+      >
+        <span className="text-[10px] uppercase tracking-wider opacity-70">Formato</span>
+        <span>{currentDims.label}</span>
+        <ChevronDown className="h-3.5 w-3.5 opacity-70" />
+      </button>
+
+      {open && (
+        <>
+          <button
+            className="fixed inset-0 z-10 cursor-default"
+            onClick={() => setOpen(false)}
+            aria-label="Cerrar"
+          />
+          <div
+            role="listbox"
+            className="absolute left-0 top-full z-20 mt-2 min-w-[220px] overflow-hidden rounded-lg border border-border bg-card shadow-xl"
+          >
+            {PITCH_FORMATS.map((f) => {
+              const dims = PITCH_DIMENSIONS[f];
+              const active = f === current;
+              return (
+                <button
+                  key={f}
+                  onClick={() => {
+                    onChange(f);
+                    setOpen(false);
+                  }}
+                  className={cn(
+                    "block w-full px-4 py-2.5 text-left transition hover:bg-secondary",
+                    active && "bg-secondary",
+                  )}
+                >
+                  <div className="text-sm font-semibold">{dims.label}</div>
+                  <div className="text-[11px] text-muted-foreground">
+                    {dims.length}m x {dims.width}m, {dims.playersPerTeam}v{dims.playersPerTeam}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -141,9 +231,7 @@ function ToggleButton({
       aria-pressed={active}
       className={cn(
         "inline-flex items-center gap-1.5 rounded-sm px-2.5 py-1 text-xs font-medium transition",
-        active
-          ? activeAccent
-          : "text-muted-foreground hover:bg-secondary hover:text-foreground",
+        active ? activeAccent : "text-muted-foreground hover:bg-secondary hover:text-foreground",
       )}
     >
       {icon}

@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { formations, groupFormationsByCategory } from "@/lib/formations";
+import { formationsForFormat, groupFormationsByCategory } from "@/lib/formations";
 import { usePlayersStore } from "@/stores/playersStore";
+import { useEditorStore } from "@/stores/editorStore";
 import { cn } from "@/lib/utils";
 import type { Side } from "@/types";
 
@@ -11,17 +12,19 @@ type Props = {
   team: Side;
 };
 
-const groups = groupFormationsByCategory();
-
 export function FormationPicker({ team }: Props) {
   const loadFormation = usePlayersStore((s) => s.loadFormation);
   const currentId = usePlayersStore((s) =>
     team === "home" ? s.homeFormationId : s.awayFormationId,
   );
+  const format = useEditorStore((s) => s.pitchFormat);
   const [open, setOpen] = useState(false);
 
-  const current = formations.find((f) => f.id === currentId) ?? formations[0];
+  const list = formationsForFormat(format);
+  const current = list.find((f) => f.id === currentId) ?? list[0];
   if (!current) return null;
+
+  const groups = groupFormationsByCategory(format);
 
   const teamLabel = team === "home" ? "Local" : "Visitante";
   const dotColor =
