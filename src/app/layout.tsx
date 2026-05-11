@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Header } from "@/components/shared/Header";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -34,12 +35,13 @@ export const metadata: Metadata = {
     description: "Pizarra tactica de futbol gratis y open source para entrenadores",
     type: "website",
     locale: "es_AR",
-    images: ["/og-image.png"],
+    images: ["/readmelogo.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: "TacticBasicsFootball",
     description: "Pizarra tactica de futbol gratis y open source para entrenadores",
+    images: ["/readmelogo.png"],
   },
   icons: {
     icon: "/favicon.ico",
@@ -63,6 +65,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
+        <Header />
         {children}
       </body>
     </html>
