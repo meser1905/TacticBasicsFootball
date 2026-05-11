@@ -4,6 +4,7 @@ import { Pitch2D } from "@/components/pitch/Pitch2D";
 import { Pitch3D } from "@/components/pitch/Pitch3DLoader";
 import { FormationPicker } from "@/components/formations/FormationPicker";
 import { PlayerEditDialog } from "@/components/players/PlayerEditDialog";
+import { PitchToolbar } from "@/components/pitch/PitchToolbar";
 import { EditorToolbar } from "./EditorToolbar";
 import { useEditorStore } from "@/stores/editorStore";
 import { usePlayersStore } from "@/stores/playersStore";
@@ -25,6 +26,7 @@ export function Editor() {
   return (
     <div className="flex flex-col gap-4">
       <EditorToolbar />
+      <PitchToolbar />
 
       <div className="flex flex-wrap items-center gap-3">
         {showHomeCard && <FormationPicker team="home" />}

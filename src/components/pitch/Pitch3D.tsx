@@ -6,8 +6,9 @@ import { OrbitControls, Text } from "@react-three/drei";
 import { Plane as ThreePlane, Raycaster, Vector2, Vector3 } from "three";
 import { usePlayersStore } from "@/stores/playersStore";
 import { useEditorStore } from "@/stores/editorStore";
+import { useBoardStore } from "@/stores/boardStore";
 import { PITCH_DIMENSIONS, type PitchDimensions } from "@/lib/pitchDimensions";
-import type { Player } from "@/types";
+import type { DrawingStroke, EquipmentItem, Player } from "@/types";
 
 const LINE_Y = 0.05;
 const ZONE_Y = 0.04;
@@ -24,6 +25,8 @@ export function Pitch3D() {
   const format = useEditorStore((s) => s.pitchFormat);
   const showZones = useEditorStore((s) => s.showZones);
   const isDraggingPlayer = useEditorStore((s) => s.isDraggingPlayer);
+  const equipment = useBoardStore((s) => s.equipment);
+  const strokes = useBoardStore((s) => s.strokes);
 
   const dims = PITCH_DIMENSIONS[format];
   const visible = viewMode === "versus" ? players : players.filter((p) => p.team === soloTeam);
@@ -56,6 +59,8 @@ export function Pitch3D() {
         <PitchGround dims={dims} />
         <PitchLines3D dims={dims} />
         {showZones && <Zones3D dims={dims} />}
+        <Strokes3D strokes={strokes} dims={dims} />
+        <Equipment3D items={equipment} dims={dims} />
         {visible.map((p) => (
           <Player3D key={p.id} player={p} dims={dims} />
         ))}
@@ -216,6 +221,152 @@ function Zones3D({ dims }: { dims: PitchDimensions }) {
             {String(c.number)}
           </Text>
         </group>
+      ))}
+    </group>
+  );
+}
+
+function Equipment3D({ items, dims }: { items: readonly EquipmentItem[]; dims: PitchDimensions }) {
+  return (
+    <group>
+      {items.map((item) => (
+        <EquipmentMesh key={item.id} item={item} dims={dims} />
+      ))}
+    </group>
+  );
+}
+
+function EquipmentMesh({ item, dims }: { item: EquipmentItem; dims: PitchDimensions }) {
+  const removeEquipment = useBoardStore((s) => s.removeEquipment);
+  const tool = useBoardStore((s) => s.tool);
+  const worldX = (item.px - 0.5) * dims.width;
+  const worldZ = (item.py - 0.5) * dims.length;
+  const scale = Math.min(dims.width, dims.length) / 60;
+
+  const onClick = (e: { stopPropagation: () => void }) => {
+    if (tool === "eraser") {
+      e.stopPropagation();
+      removeEquipment(item.id);
+    }
+  };
+
+  if (item.type === "cone") {
+    return (
+      <group position={[worldX, 0, worldZ]} onClick={onClick}>
+        <mesh position={[0, 0.55 * scale, 0]} castShadow>
+          <coneGeometry args={[0.55 * scale, 1.1 * scale, 12]} />
+          <meshStandardMaterial color="#ff7a00" roughness={0.5} />
+        </mesh>
+        <mesh position={[0, 0.42 * scale, 0]}>
+          <cylinderGeometry args={[0.5 * scale, 0.5 * scale, 0.1 * scale, 12]} />
+          <meshStandardMaterial color="#ffffff" />
+        </mesh>
+      </group>
+    );
+  }
+  if (item.type === "tallcone") {
+    return (
+      <group position={[worldX, 0, worldZ]} onClick={onClick}>
+        <mesh position={[0, 1 * scale, 0]} castShadow>
+          <cylinderGeometry args={[0.08 * scale, 0.12 * scale, 2 * scale, 8]} />
+          <meshStandardMaterial color="#ff7a00" />
+        </mesh>
+        <mesh position={[0, 0.05 * scale, 0]}>
+          <cylinderGeometry args={[0.35 * scale, 0.35 * scale, 0.1 * scale, 12]} />
+          <meshStandardMaterial color="#1a1a1a" />
+        </mesh>
+      </group>
+    );
+  }
+  if (item.type === "hurdle") {
+    return (
+      <group position={[worldX, 0, worldZ]} onClick={onClick}>
+        <mesh position={[0, 0.5 * scale, 0]} castShadow>
+          <boxGeometry args={[2 * scale, 0.1 * scale, 0.1 * scale]} />
+          <meshStandardMaterial color="#fbbf24" />
+        </mesh>
+        <mesh position={[-0.95 * scale, 0.25 * scale, 0]} castShadow>
+          <boxGeometry args={[0.1 * scale, 0.5 * scale, 0.1 * scale]} />
+          <meshStandardMaterial color="#fbbf24" />
+        </mesh>
+        <mesh position={[0.95 * scale, 0.25 * scale, 0]} castShadow>
+          <boxGeometry args={[0.1 * scale, 0.5 * scale, 0.1 * scale]} />
+          <meshStandardMaterial color="#fbbf24" />
+        </mesh>
+      </group>
+    );
+  }
+  if (item.type === "minigoal") {
+    return (
+      <group position={[worldX, 0, worldZ]} onClick={onClick}>
+        <mesh position={[0, 0.6 * scale, 0]} castShadow>
+          <boxGeometry args={[3 * scale, 0.08 * scale, 0.08 * scale]} />
+          <meshStandardMaterial color="#ffffff" />
+        </mesh>
+        <mesh position={[-1.45 * scale, 0.3 * scale, 0]} castShadow>
+          <boxGeometry args={[0.08 * scale, 0.6 * scale, 0.08 * scale]} />
+          <meshStandardMaterial color="#ffffff" />
+        </mesh>
+        <mesh position={[1.45 * scale, 0.3 * scale, 0]} castShadow>
+          <boxGeometry args={[0.08 * scale, 0.6 * scale, 0.08 * scale]} />
+          <meshStandardMaterial color="#ffffff" />
+        </mesh>
+      </group>
+    );
+  }
+  if (item.type === "ladder") {
+    return (
+      <group position={[worldX, 0, worldZ]} onClick={onClick}>
+        {[-2, -1, 0, 1, 2].map((i) => (
+          <mesh key={i} position={[0, 0.025 * scale, i * 0.6 * scale]}>
+            <boxGeometry args={[1.4 * scale, 0.03 * scale, 0.06 * scale]} />
+            <meshBasicMaterial color="#fbbf24" />
+          </mesh>
+        ))}
+      </group>
+    );
+  }
+  return null;
+}
+
+function Strokes3D({ strokes, dims }: { strokes: readonly DrawingStroke[]; dims: PitchDimensions }) {
+  return (
+    <group position={[0, 0.08, 0]}>
+      {strokes.map((s) => (
+        <StrokeSegments key={s.id} stroke={s} dims={dims} />
+      ))}
+    </group>
+  );
+}
+
+function StrokeSegments({ stroke, dims }: { stroke: DrawingStroke; dims: PitchDimensions }) {
+  if (stroke.points.length < 2) return null;
+  const halfW = dims.width / 2;
+  const halfH = dims.length / 2;
+  const segments: { x: number; z: number; len: number; angle: number }[] = [];
+  for (let i = 1; i < stroke.points.length; i++) {
+    const a = stroke.points[i - 1];
+    const b = stroke.points[i];
+    if (!a || !b) continue;
+    const ax = a.x - halfW;
+    const az = a.y - halfH;
+    const bx = b.x - halfW;
+    const bz = b.y - halfH;
+    const dx = bx - ax;
+    const dz = bz - az;
+    const len = Math.sqrt(dx * dx + dz * dz);
+    if (len < 0.001) continue;
+    const angle = Math.atan2(dz, dx);
+    segments.push({ x: (ax + bx) / 2, z: (az + bz) / 2, len, angle });
+  }
+  const thickness = (dims.width / 68) * 0.5;
+  return (
+    <group>
+      {segments.map((seg, i) => (
+        <mesh key={i} position={[seg.x, 0, seg.z]} rotation={[-Math.PI / 2, 0, -seg.angle]}>
+          <planeGeometry args={[seg.len, thickness]} />
+          <meshBasicMaterial color={stroke.color} transparent opacity={0.92} />
+        </mesh>
       ))}
     </group>
   );

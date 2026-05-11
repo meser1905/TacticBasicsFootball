@@ -65,3 +65,61 @@ export type Player = {
   px: number;
   py: number;
 };
+
+export type TrainingCategory =
+  | "warmup"
+  | "technique"
+  | "passing"
+  | "dribbling"
+  | "control"
+  | "finishing"
+  | "heading"
+  | "possession"
+  | "positional"
+  | "transitions"
+  | "pressing"
+  | "defending"
+  | "setpieces"
+  | "smallsided"
+  | "goalkeeper"
+  | "physical"
+  | "futsal-specific";
+
+export type TrainingMaterial = {
+  name: string;
+  count: number;
+};
+
+export type Training = {
+  id: string;
+  name: string;
+  category: TrainingCategory;
+  objective: string;
+  formats: readonly PitchFormat[];
+  playersMin: number;
+  playersMax: number;
+  durationMin: number;
+  durationMax: number;
+  space?: string;
+  materials: readonly TrainingMaterial[];
+  description: readonly string[];
+  variants?: readonly string[];
+  indicators?: readonly string[];
+};
+
+export type EquipmentType = "cone" | "tallcone" | "hurdle" | "minigoal" | "ladder";
+
+export type EquipmentItem = {
+  id: string;
+  type: EquipmentType;
+  px: number;
+  py: number;
+};
+
+export type DrawingTool = "none" | "marker" | "cone" | "eraser";
+
+export type DrawingStroke = {
+  id: string;
+  color: string;
+  points: readonly { x: number; y: number }[];
+};
