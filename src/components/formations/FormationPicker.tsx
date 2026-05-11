@@ -21,9 +21,7 @@ export function FormationPicker({ team }: Props) {
   const [open, setOpen] = useState(false);
 
   const list = formationsForFormat(format);
-  const current = list.find((f) => f.id === currentId) ?? list[0];
-  if (!current) return null;
-
+  const current = currentId ? list.find((f) => f.id === currentId) : null;
   const groups = groupFormationsByCategory(format);
 
   const teamLabel = team === "home" ? "Local" : "Visitante";
@@ -47,7 +45,7 @@ export function FormationPicker({ team }: Props) {
       >
         <span className={cn("h-2 w-2 rounded-full shadow-md", dotColor)} />
         <span className="text-muted-foreground">{teamLabel}</span>
-        <span className="font-bold">{current.name}</span>
+        <span className="font-bold">{current ? current.name : "Elegir formacion"}</span>
         <ChevronDown className="h-3.5 w-3.5 opacity-70" />
       </button>
 

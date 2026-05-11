@@ -47,10 +47,15 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     })),
   setPitchFormat: (format) => {
     if (get().pitchFormat === format) return;
-    const defaultFormation = defaultFormationForFormat(format);
     const players = usePlayersStore.getState();
-    players.loadFormation(defaultFormation, "home");
-    players.loadFormation(defaultFormation, "away");
+    if (players.homeFormationId) {
+      const def = defaultFormationForFormat(format);
+      players.loadFormation(def, "home");
+    }
+    if (players.awayFormationId) {
+      const def = defaultFormationForFormat(format);
+      players.loadFormation(def, "away");
+    }
     set({ pitchFormat: format });
   },
   setViewMode: (mode) => set({ viewMode: mode }),

@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import type { Formation, Player, PlayerRole, Side } from "@/types";
-import { formation442 } from "@/lib/formations";
 
 const TEAM_LENGTH_SCALE = 0.94;
 
@@ -33,21 +32,19 @@ export type PlayerUpdate = {
 
 type PlayersState = {
   players: Player[];
-  homeFormationId: string;
-  awayFormationId: string;
+  homeFormationId: string | null;
+  awayFormationId: string | null;
   movePlayer: (id: string, px: number, py: number) => void;
   updatePlayer: (id: string, updates: PlayerUpdate) => void;
   loadFormation: (formation: Formation, team: Side) => void;
   resetTeam: (formation: Formation, team: Side) => void;
+  clearAll: () => void;
 };
 
 export const usePlayersStore = create<PlayersState>((set) => ({
-  players: [
-    ...buildPlayersFromFormation(formation442, "home"),
-    ...buildPlayersFromFormation(formation442, "away"),
-  ],
-  homeFormationId: formation442.id,
-  awayFormationId: formation442.id,
+  players: [],
+  homeFormationId: null,
+  awayFormationId: null,
   movePlayer: (id, px, py) =>
     set((state) => ({
       players: state.players.map((p) =>
@@ -74,4 +71,5 @@ export const usePlayersStore = create<PlayersState>((set) => ({
         ...buildPlayersFromFormation(formation, team),
       ],
     })),
+  clearAll: () => set({ players: [], homeFormationId: null, awayFormationId: null }),
 }));

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { DrawingStroke, DrawingTool, EquipmentItem, EquipmentType } from "@/types";
+import type { DrawingStroke, DrawingTool, EquipmentItem, EquipmentType, StrokeKind } from "@/types";
 
 let strokeCounter = 0;
 let equipmentCounter = 0;
@@ -21,8 +21,9 @@ type BoardState = {
   selectEquipmentType: (t: EquipmentType) => void;
   startPaletteDrag: (t: EquipmentType) => void;
   cancelPaletteDrag: () => void;
-  startStroke: (point: { x: number; y: number }) => void;
+  startStroke: (point: { x: number; y: number }, kind?: StrokeKind) => void;
   appendStrokePoint: (point: { x: number; y: number }) => void;
+  updateArrowEnd: (point: { x: number; y: number }) => void;
   finishStroke: () => void;
   removeStroke: (id: string) => void;
   addEquipment: (type: EquipmentType, px: number, py: number) => void;
@@ -49,12 +50,13 @@ export const useBoardStore = create<BoardState>((set, get) => ({
   selectEquipmentType: (type) => set({ selectedEquipmentType: type, tool: "cone" }),
   startPaletteDrag: (type) => set({ paletteDragType: type }),
   cancelPaletteDrag: () => set({ paletteDragType: null }),
-  startStroke: (point) => {
+  startStroke: (point, kind = "freehand") => {
     strokeCounter += 1;
     set({
       activeStroke: {
         id: `stroke-${Date.now()}-${strokeCounter}`,
         color: get().color,
+        kind,
         points: [point],
       },
     });
@@ -65,6 +67,13 @@ export const useBoardStore = create<BoardState>((set, get) => ({
     set({
       activeStroke: { ...active, points: [...active.points, point] },
     });
+  },
+  updateArrowEnd: (point) => {
+    const active = get().activeStroke;
+    if (!active) return;
+    const first = active.points[0];
+    if (!first) return;
+    set({ activeStroke: { ...active, points: [first, point] } });
   },
   finishStroke: () => {
     const active = get().activeStroke;

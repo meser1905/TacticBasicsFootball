@@ -1,6 +1,6 @@
 "use client";
 
-import { MousePointer2, Pencil, Cone, Eraser, Trash2 } from "lucide-react";
+import { MousePointer2, Pencil, ArrowUpRight, Eraser, Trash2 } from "lucide-react";
 import { useBoardStore } from "@/stores/boardStore";
 import { cn } from "@/lib/utils";
 import type { DrawingTool } from "@/types";
@@ -21,10 +21,34 @@ export function PitchToolbar() {
         Pizarra
       </span>
       <div className="flex items-center gap-1 rounded-md border border-border bg-background/60 p-0.5">
-        <ToolButton tool="none" active={tool === "none"} onClick={setTool} icon={<MousePointer2 className="h-3.5 w-3.5" />} label="Mover" />
-        <ToolButton tool="marker" active={tool === "marker"} onClick={setTool} icon={<Pencil className="h-3.5 w-3.5" />} label="Marcador" />
-        <ToolButton tool="cone" active={tool === "cone"} onClick={setTool} icon={<Cone className="h-3.5 w-3.5" />} label="Cono" />
-        <ToolButton tool="eraser" active={tool === "eraser"} onClick={setTool} icon={<Eraser className="h-3.5 w-3.5" />} label="Borrar" />
+        <ToolButton
+          tool="none"
+          active={tool === "none"}
+          onClick={setTool}
+          icon={<MousePointer2 className="h-3.5 w-3.5" />}
+          label="Mover"
+        />
+        <ToolButton
+          tool="marker"
+          active={tool === "marker"}
+          onClick={setTool}
+          icon={<Pencil className="h-3.5 w-3.5" />}
+          label="Marcador"
+        />
+        <ToolButton
+          tool="arrow"
+          active={tool === "arrow"}
+          onClick={setTool}
+          icon={<ArrowUpRight className="h-3.5 w-3.5" />}
+          label="Flecha"
+        />
+        <ToolButton
+          tool="eraser"
+          active={tool === "eraser"}
+          onClick={setTool}
+          icon={<Eraser className="h-3.5 w-3.5" />}
+          label="Borrar"
+        />
       </div>
 
       <div className="flex items-center gap-1.5 rounded-md border border-border bg-background/60 p-1">
@@ -35,7 +59,7 @@ export function PitchToolbar() {
             aria-label={`Color ${c}`}
             className={cn(
               "h-5 w-5 rounded-full border-2 transition",
-              color === c ? "border-foreground scale-110" : "border-transparent opacity-70 hover:opacity-100",
+              color === c ? "scale-110 border-foreground" : "border-transparent opacity-70 hover:opacity-100",
             )}
             style={{ backgroundColor: c }}
           />
@@ -45,7 +69,7 @@ export function PitchToolbar() {
       <button
         onClick={clearDrawings}
         className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-2.5 py-1 text-xs font-medium text-foreground transition hover:bg-secondary"
-        title="Borrar todos los dibujos"
+        title="Borrar todos los trazos y flechas"
       >
         <Trash2 className="h-3.5 w-3.5" />
         Trazos
@@ -82,9 +106,7 @@ function ToolButton({
       title={label}
       className={cn(
         "inline-flex items-center gap-1.5 rounded-sm px-2.5 py-1 text-xs font-medium transition",
-        active
-          ? "bg-primary text-primary-foreground"
-          : "text-muted-foreground hover:bg-secondary hover:text-foreground",
+        active ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground",
       )}
     >
       {icon}

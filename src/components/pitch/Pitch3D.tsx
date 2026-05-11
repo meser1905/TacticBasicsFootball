@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Canvas, useThree, type ThreeEvent } from "@react-three/fiber";
 import { OrbitControls, Text } from "@react-three/drei";
-import { Plane as ThreePlane, Raycaster, Vector2, Vector3 } from "three";
+import { Plane as ThreePlane, Raycaster, Shape as ThreeShape, Vector2, Vector3 } from "three";
 import { usePlayersStore } from "@/stores/playersStore";
 import { useEditorStore } from "@/stores/editorStore";
 import { useBoardStore } from "@/stores/boardStore";
@@ -406,6 +406,45 @@ function StrokeSegments({ stroke, dims }: { stroke: DrawingStroke; dims: PitchDi
   if (stroke.points.length < 2) return null;
   const halfW = dims.width / 2;
   const halfH = dims.length / 2;
+  const thickness = (dims.width / 68) * 0.5;
+  const headLength = thickness * 4;
+  const headWidth = thickness * 3;
+  const isArrow = stroke.kind === "arrow";
+
+  if (isArrow) {
+    const a = stroke.points[0];
+    const b = stroke.points[stroke.points.length - 1];
+    if (!a || !b) return null;
+    const ax = a.x - halfW;
+    const az = a.y - halfH;
+    const bx = b.x - halfW;
+    const bz = b.y - halfH;
+    const dx = bx - ax;
+    const dz = bz - az;
+    const len = Math.sqrt(dx * dx + dz * dz);
+    if (len < 0.001) return null;
+    const angle = Math.atan2(dz, dx);
+    const trimmedLen = Math.max(len - headLength * 0.6, 0.01);
+    const lineMidX = ax + (dx / len) * (trimmedLen / 2);
+    const lineMidZ = az + (dz / len) * (trimmedLen / 2);
+
+    return (
+      <group>
+        <mesh position={[lineMidX, 0, lineMidZ]} rotation={[-Math.PI / 2, 0, -angle]}>
+          <planeGeometry args={[trimmedLen, thickness]} />
+          <meshBasicMaterial color={stroke.color} transparent opacity={0.95} />
+        </mesh>
+        <mesh position={[bx, 0, bz]} rotation={[-Math.PI / 2, 0, -angle]}>
+          <shapeGeometry
+            attach="geometry"
+            args={[buildArrowShape(headLength, headWidth)]}
+          />
+          <meshBasicMaterial color={stroke.color} transparent opacity={0.95} />
+        </mesh>
+      </group>
+    );
+  }
+
   const segments: { x: number; z: number; len: number; angle: number }[] = [];
   for (let i = 1; i < stroke.points.length; i++) {
     const a = stroke.points[i - 1];
@@ -422,7 +461,6 @@ function StrokeSegments({ stroke, dims }: { stroke: DrawingStroke; dims: PitchDi
     const angle = Math.atan2(dz, dx);
     segments.push({ x: (ax + bx) / 2, z: (az + bz) / 2, len, angle });
   }
-  const thickness = (dims.width / 68) * 0.5;
   return (
     <group>
       {segments.map((seg, i) => (
@@ -433,6 +471,15 @@ function StrokeSegments({ stroke, dims }: { stroke: DrawingStroke; dims: PitchDi
       ))}
     </group>
   );
+}
+
+function buildArrowShape(length: number, width: number) {
+  const shape = new ThreeShape();
+  shape.moveTo(0, 0);
+  shape.lineTo(-length, width / 2);
+  shape.lineTo(-length, -width / 2);
+  shape.lineTo(0, 0);
+  return shape;
 }
 
 function Player3D({ player, dims }: { player: Player; dims: PitchDimensions }) {

@@ -37,10 +37,14 @@ export function EditorToolbar() {
   const resetTeam = usePlayersStore((s) => s.resetTeam);
 
   const handleReset = () => {
-    const home = findFormationById(homeId);
-    const away = findFormationById(awayId);
-    if (home) resetTeam(home, "home");
-    if (away) resetTeam(away, "away");
+    if (homeId) {
+      const home = findFormationById(homeId);
+      if (home) resetTeam(home, "home");
+    }
+    if (awayId) {
+      const away = findFormationById(awayId);
+      if (away) resetTeam(away, "away");
+    }
   };
 
   return (

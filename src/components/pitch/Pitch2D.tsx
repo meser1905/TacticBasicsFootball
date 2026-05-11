@@ -23,6 +23,7 @@ export function Pitch2D() {
   const tool = useBoardStore((s) => s.tool);
   const startStroke = useBoardStore((s) => s.startStroke);
   const appendStrokePoint = useBoardStore((s) => s.appendStrokePoint);
+  const updateArrowEnd = useBoardStore((s) => s.updateArrowEnd);
   const finishStroke = useBoardStore((s) => s.finishStroke);
   const addEquipment = useBoardStore((s) => s.addEquipment);
   const selectedEquipmentType = useBoardStore((s) => s.selectedEquipmentType);
@@ -63,7 +64,11 @@ export function Pitch2D() {
 
     if (tool === "marker") {
       drawingRef.current = true;
-      startStroke({ x: p.x, y: p.y });
+      startStroke({ x: p.x, y: p.y }, "freehand");
+      svgRef.current?.setPointerCapture(e.pointerId);
+    } else if (tool === "arrow") {
+      drawingRef.current = true;
+      startStroke({ x: p.x, y: p.y }, "arrow");
       svgRef.current?.setPointerCapture(e.pointerId);
     } else if (tool === "cone") {
       addEquipment(selectedEquipmentType, p.x / W, p.y / H);
@@ -71,14 +76,18 @@ export function Pitch2D() {
   };
 
   const onSvgPointerMove = (e: React.PointerEvent<SVGSVGElement>) => {
-    if (tool !== "marker" || !drawingRef.current) return;
+    if (!drawingRef.current) return;
     const p = getCanonicalPoint(e);
     if (!p) return;
-    appendStrokePoint({ x: p.x, y: p.y });
+    if (tool === "marker") {
+      appendStrokePoint({ x: p.x, y: p.y });
+    } else if (tool === "arrow") {
+      updateArrowEnd({ x: p.x, y: p.y });
+    }
   };
 
   const onSvgPointerUp = (e: React.PointerEvent<SVGSVGElement>) => {
-    if (tool === "marker" && drawingRef.current) {
+    if (drawingRef.current && (tool === "marker" || tool === "arrow")) {
       drawingRef.current = false;
       finishStroke();
       if (svgRef.current?.hasPointerCapture(e.pointerId)) {
@@ -89,7 +98,13 @@ export function Pitch2D() {
 
   const playerLayerPointerEvents = tool === "none" ? "auto" : "none";
   const svgCursor =
-    tool === "marker" ? "crosshair" : tool === "cone" ? "copy" : tool === "eraser" ? "not-allowed" : "default";
+    tool === "marker" || tool === "arrow"
+      ? "crosshair"
+      : tool === "cone"
+        ? "copy"
+        : tool === "eraser"
+          ? "not-allowed"
+          : "default";
 
   return (
     <div

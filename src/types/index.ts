@@ -125,10 +125,13 @@ export type EquipmentItem = {
 };
 
 
-export type DrawingTool = "none" | "marker" | "cone" | "eraser";
+export type DrawingTool = "none" | "marker" | "arrow" | "cone" | "eraser";
+
+export type StrokeKind = "freehand" | "arrow";
 
 export type DrawingStroke = {
   id: string;
   color: string;
+  kind: StrokeKind;
   points: readonly { x: number; y: number }[];
 };
