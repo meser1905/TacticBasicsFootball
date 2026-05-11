@@ -24,9 +24,8 @@
   "formations": {
     "title": "Formaciones",
     "search": "Buscar formacion",
-    "strengths": "Fortalezas",
-    "weaknesses": "Debilidades",
-    "famousFor": "Usada por"
+    "strengths": "Pros",
+    "weaknesses": "Contras"
   },
   "common": {
     "save": "Guardar",

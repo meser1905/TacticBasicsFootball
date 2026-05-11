@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { formations } from "@/lib/formations";
+import { formations, groupFormationsByCategory } from "@/lib/formations";
 import { usePlayersStore } from "@/stores/playersStore";
 import { cn } from "@/lib/utils";
 import type { Side } from "@/types";
@@ -10,6 +10,8 @@ import type { Side } from "@/types";
 type Props = {
   team: Side;
 };
+
+const groups = groupFormationsByCategory();
 
 export function FormationPicker({ team }: Props) {
   const loadFormation = usePlayersStore((s) => s.loadFormation);
@@ -55,28 +57,32 @@ export function FormationPicker({ team }: Props) {
           />
           <div
             role="listbox"
-            className="absolute left-0 top-full z-20 mt-2 min-w-[320px] overflow-hidden rounded-lg border border-border bg-card shadow-xl"
+            className="absolute left-0 top-full z-20 mt-2 max-h-[70vh] w-[360px] overflow-y-auto rounded-lg border border-border bg-card shadow-xl"
           >
-            {formations.map((f) => (
-              <button
-                key={f.id}
-                onClick={() => {
-                  loadFormation(f, team);
-                  setOpen(false);
-                }}
-                className={cn(
-                  "block w-full px-4 py-3 text-left transition hover:bg-secondary",
-                  f.id === currentId && "bg-secondary",
-                )}
-              >
-                <div className="font-semibold">{f.name}</div>
-                <div className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">
-                  {f.description}
+            {groups.map((group) => (
+              <div key={group.category}>
+                <div className="sticky top-0 z-10 border-b border-border bg-card/95 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground backdrop-blur">
+                  {group.label}
                 </div>
-                <div className="mt-1 text-[10px] uppercase tracking-wide text-muted-foreground/70">
-                  {f.famousFor}
-                </div>
-              </button>
+                {group.items.map((f) => (
+                  <button
+                    key={f.id}
+                    onClick={() => {
+                      loadFormation(f, team);
+                      setOpen(false);
+                    }}
+                    className={cn(
+                      "block w-full px-4 py-2.5 text-left transition hover:bg-secondary",
+                      f.id === currentId && "bg-secondary",
+                    )}
+                  >
+                    <div className="text-sm font-semibold">{f.name}</div>
+                    <div className="mt-0.5 line-clamp-2 text-xs text-muted-foreground">
+                      {f.description}
+                    </div>
+                  </button>
+                ))}
+              </div>
             ))}
           </div>
         </>

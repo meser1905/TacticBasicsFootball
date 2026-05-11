@@ -17,7 +17,6 @@ export const formation352: Formation = {
     "Necesita carrileros muy completos (no abundan)",
     "Sin extremos puros, depende de los carrileros",
   ],
-  famousFor: "Antonio Conte con el Juventus 2012-2014",
   slots: [
     { role: "GK", x: 0.06, y: 0.5 },
     { role: "CB", x: 0.2, y: 0.7 },

@@ -17,7 +17,6 @@ export const formation433: Formation = {
     "Requiere laterales con muchisima resistencia",
     "Vulnerable a contraataques por el centro",
   ],
-  famousFor: "Pep Guardiola con el Barcelona 2008-2012",
   slots: [
     { role: "GK", x: 0.06, y: 0.5 },
     { role: "RB", x: 0.22, y: 0.85 },

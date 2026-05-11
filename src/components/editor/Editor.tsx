@@ -29,13 +29,20 @@ export function Editor() {
   );
 }
 
+type FormationSummary = {
+  name: string;
+  description: string;
+  strengths: readonly string[];
+  weaknesses: readonly string[];
+};
+
 function FormationCard({
   label,
   formation,
   accent,
 }: {
   label: string;
-  formation: { name: string; description: string; strengths: readonly string[]; weaknesses: readonly string[]; famousFor: string } | undefined;
+  formation: FormationSummary | undefined;
   accent: "blue" | "red";
 }) {
   if (!formation) return null;
@@ -48,26 +55,23 @@ function FormationCard({
         <span className="font-bold text-foreground">{formation.name}</span>
       </div>
       <p className="mt-2 text-sm text-muted-foreground">{formation.description}</p>
-      <div className="mt-3 grid gap-2 text-xs sm:grid-cols-2">
+      <div className="mt-3 grid gap-3 text-xs sm:grid-cols-2">
         <div>
-          <div className="font-semibold text-foreground">Fortalezas</div>
+          <div className="font-semibold text-foreground">Pros</div>
           <ul className="mt-1 list-disc space-y-0.5 pl-4 text-muted-foreground">
-            {formation.strengths.slice(0, 3).map((s) => (
+            {formation.strengths.map((s) => (
               <li key={s}>{s}</li>
             ))}
           </ul>
         </div>
         <div>
-          <div className="font-semibold text-foreground">Debilidades</div>
+          <div className="font-semibold text-foreground">Contras</div>
           <ul className="mt-1 list-disc space-y-0.5 pl-4 text-muted-foreground">
-            {formation.weaknesses.slice(0, 3).map((w) => (
+            {formation.weaknesses.map((w) => (
               <li key={w}>{w}</li>
             ))}
           </ul>
         </div>
-      </div>
-      <div className="mt-3 text-[11px] uppercase tracking-wide text-muted-foreground/80">
-        Usada por: <span className="text-foreground/80">{formation.famousFor}</span>
       </div>
     </div>
   );

@@ -2,8 +2,13 @@ import { describe, it, expect } from "vitest";
 import { formations, findFormationById } from "@/lib/formations";
 
 describe("formations library", () => {
-  it("ships at least 3 formations", () => {
-    expect(formations.length).toBeGreaterThanOrEqual(3);
+  it("ships all 22 football 11 formations", () => {
+    expect(formations.length).toBe(22);
+  });
+
+  it("has unique formation ids", () => {
+    const ids = formations.map((f) => f.id);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 
   it("finds a formation by id", () => {
@@ -36,7 +41,19 @@ describe("formations library", () => {
         expect(formation.description.length).toBeGreaterThan(10);
         expect(formation.strengths.length).toBeGreaterThanOrEqual(2);
         expect(formation.weaknesses.length).toBeGreaterThanOrEqual(2);
-        expect(formation.famousFor).toBeTruthy();
+      });
+
+      it("declares a valid category", () => {
+        const valid = [
+          "football11-classic",
+          "football11-modern",
+          "football11-historic",
+          "football11-specific",
+          "football8",
+          "football7",
+          "futsal",
+        ];
+        expect(valid).toContain(formation.category);
       });
     });
   });

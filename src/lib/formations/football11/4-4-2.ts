@@ -17,7 +17,6 @@ export const formation442: Formation = {
     "Los extremos quedan lejos del juego central",
     "Requiere mucho esfuerzo fisico de los volantes",
   ],
-  famousFor: "Arrigo Sacchi con el Milan de los 80",
   slots: [
     { role: "GK", x: 0.06, y: 0.5 },
     { role: "RB", x: 0.22, y: 0.85 },

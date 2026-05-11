@@ -14,7 +14,7 @@ Gracias por querer sumar. Toda ayuda es bienvenida: codigo, formaciones, ejercic
 
 No hace falta saber programar. Podes:
 
-- **Sumar una formacion**: usa el [template](.github/ISSUE_TEMPLATE/new_formation.md) y completa nombre, descripcion, fortalezas, debilidades, equipo famoso, posiciones X/Y de cada jugador.
+- **Sumar una formacion**: usa el [template](.github/ISSUE_TEMPLATE/new_formation.md) y completa nombre, descripcion, fortalezas, debilidades y posiciones X/Y de cada jugador.
 - **Sumar un ejercicio de entrenamiento**: abri un issue con objetivo, duracion, materiales, descripcion paso a paso y variantes.
 - **Reportar un bug** o **pedir una feature**: usa los templates de issue.
 

@@ -24,9 +24,8 @@
   "formations": {
     "title": "Formacoes",
     "search": "Buscar formacao",
-    "strengths": "Pontos fortes",
-    "weaknesses": "Pontos fracos",
-    "famousFor": "Usada por"
+    "strengths": "Prós",
+    "weaknesses": "Contras"
   },
   "common": {
     "save": "Salvar",

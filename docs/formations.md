@@ -9,34 +9,34 @@ Cada formacion vive en `src/lib/formations/<categoria>/<nombre>.ts` y exporta un
 ```ts
 import type { Formation } from "@/types";
 
-export const formation_4_3_3: Formation = {
+export const formation433: Formation = {
   id: "4-3-3",
   name: "4-3-3",
   category: "football11-classic",
-  description: "Sistema balanceado con tres delanteros, busca dominio en ataque y solidez con un mediocampo de tres.",
+  description:
+    "Sistema balanceado con tres delanteros, busca dominio en ataque y solidez con un mediocampo de tres.",
   strengths: [
-    "Presion alta efectiva",
-    "Ancho de cancha con extremos",
-    "Triangulaciones por bandas",
+    "Presion alta efectiva con 3 atacantes",
+    "Ancho de cancha permanente con los extremos",
+    "Triangulaciones constantes por bandas",
   ],
   weaknesses: [
     "Volantes muy expuestos si los extremos no bajan",
-    "Necesita laterales con mucha resistencia",
-    "Vulnerable al contraataque por el centro",
+    "Necesita laterales con muchisima resistencia",
+    "Vulnerable a contraataques por el centro",
   ],
-  famousFor: "Pep Guardiola con el Barcelona 2008-2012",
-  players: [
-    { role: "GK", x: 0.05, y: 0.5 },
-    { role: "RB", x: 0.2, y: 0.85 },
-    { role: "CB", x: 0.2, y: 0.6 },
-    { role: "CB", x: 0.2, y: 0.4 },
-    { role: "LB", x: 0.2, y: 0.15 },
-    { role: "DMF", x: 0.4, y: 0.5 },
-    { role: "CMF", x: 0.5, y: 0.7 },
-    { role: "CMF", x: 0.5, y: 0.3 },
-    { role: "RW", x: 0.8, y: 0.85 },
+  slots: [
+    { role: "GK", x: 0.06, y: 0.5 },
+    { role: "RB", x: 0.22, y: 0.85 },
+    { role: "CB", x: 0.2, y: 0.62 },
+    { role: "CB", x: 0.2, y: 0.38 },
+    { role: "LB", x: 0.22, y: 0.15 },
+    { role: "DMF", x: 0.42, y: 0.5 },
+    { role: "CMF", x: 0.55, y: 0.68 },
+    { role: "CMF", x: 0.55, y: 0.32 },
+    { role: "RW", x: 0.82, y: 0.82 },
     { role: "CF", x: 0.85, y: 0.5 },
-    { role: "LW", x: 0.8, y: 0.15 },
+    { role: "LW", x: 0.82, y: 0.18 },
   ],
 };
 ```

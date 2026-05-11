@@ -40,10 +40,6 @@ Una o dos oraciones que describan la idea de la formacion.
 2.
 3.
 
-## Equipo / DT famoso que la uso
-
-Ej: Pep Guardiola con el Barcelona 2009-2012
-
 ## Posiciones de los jugadores
 
 Las coordenadas X/Y van normalizadas entre 0 y 1, donde:

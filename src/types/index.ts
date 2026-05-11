@@ -64,7 +64,6 @@ export type Formation = {
   description: string;
   strengths: readonly string[];
   weaknesses: readonly string[];
-  famousFor: string;
   slots: FormationSlots11;
 };
 
