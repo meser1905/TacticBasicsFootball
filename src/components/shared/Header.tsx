@@ -5,7 +5,7 @@ import { Github } from "lucide-react";
 export function Header() {
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4">
+      <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-4 sm:h-28">
         <Link href="/" className="flex items-center" aria-label="TacticBasicsFootball home">
           <Image
             src="/logo.png"
@@ -13,7 +13,7 @@ export function Header() {
             width={760}
             height={285}
             priority
-            className="h-14 w-auto sm:h-16"
+            className="h-20 w-auto sm:h-24"
           />
         </Link>
 
