@@ -8,7 +8,7 @@ on:
 
 jobs:
   quality:
-    name: Lint + typecheck + test + build
+    name: Lint + build + typecheck + test
     runs-on: ubuntu-latest
 
     steps:
@@ -32,11 +32,11 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Build
+        run: pnpm build
+
       - name: Typecheck
         run: pnpm typecheck
 
       - name: Test
         run: pnpm test
-
-      - name: Build
-        run: pnpm build
