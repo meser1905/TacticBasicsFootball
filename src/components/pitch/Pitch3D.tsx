@@ -9,7 +9,7 @@ import type { Player } from "@/types";
 const PITCH_W = 68;
 const PITCH_H = 105;
 const LINE_THICKNESS = 0.3;
-const LINE_Y = 0.02;
+const LINE_Y = 0.05;
 
 export function Pitch3D() {
   const players = usePlayersStore((s) => s.players);
@@ -25,17 +25,21 @@ export function Pitch3D() {
     >
       <Canvas shadows camera={{ position: [0, 95, 75], fov: 38 }}>
         <color attach="background" args={["#0a1612"]} />
-        <ambientLight intensity={0.55} />
+        <ambientLight intensity={0.7} />
         <directionalLight
-          position={[40, 80, 40]}
-          intensity={1.3}
+          position={[40, 90, 30]}
+          intensity={1.1}
           castShadow
-          shadow-mapSize-width={1024}
-          shadow-mapSize-height={1024}
-          shadow-camera-left={-80}
-          shadow-camera-right={80}
-          shadow-camera-top={80}
-          shadow-camera-bottom={-80}
+          shadow-mapSize-width={2048}
+          shadow-mapSize-height={2048}
+          shadow-bias={-0.0005}
+          shadow-normalBias={0.05}
+          shadow-camera-left={-90}
+          shadow-camera-right={90}
+          shadow-camera-top={90}
+          shadow-camera-bottom={-90}
+          shadow-camera-near={1}
+          shadow-camera-far={300}
         />
         <PitchGround />
         <PitchLines3D />
@@ -56,14 +60,16 @@ export function Pitch3D() {
 
 function PitchGround() {
   return (
-    <mesh rotation-x={-Math.PI / 2} receiveShadow>
-      <planeGeometry args={[PITCH_W * 1.08, PITCH_H * 1.06]} />
-      <meshStandardMaterial color="#0c4f25" />
-      <mesh position={[0, 0.001, 0]}>
-        <planeGeometry args={[PITCH_W, PITCH_H]} />
-        <meshStandardMaterial color="#147a3a" />
+    <group>
+      <mesh rotation-x={-Math.PI / 2} position={[0, -0.2, 0]} receiveShadow>
+        <planeGeometry args={[PITCH_W * 1.18, PITCH_H * 1.12]} />
+        <meshStandardMaterial color="#0a3a1a" roughness={1} />
       </mesh>
-    </mesh>
+      <mesh rotation-x={-Math.PI / 2} position={[0, 0, 0]} receiveShadow>
+        <planeGeometry args={[PITCH_W, PITCH_H]} />
+        <meshStandardMaterial color="#1d7a3e" roughness={1} />
+      </mesh>
+    </group>
   );
 }
 
@@ -89,19 +95,15 @@ function FlatRing({
   outerRadius,
   position,
   segments = 64,
-  thetaStart = 0,
-  thetaLength = Math.PI * 2,
 }: {
   innerRadius: number;
   outerRadius: number;
   position: [number, number, number];
   segments?: number;
-  thetaStart?: number;
-  thetaLength?: number;
 }) {
   return (
     <mesh position={position} rotation-x={-Math.PI / 2}>
-      <ringGeometry args={[innerRadius, outerRadius, segments, 1, thetaStart, thetaLength]} />
+      <ringGeometry args={[innerRadius, outerRadius, segments]} />
       <meshBasicMaterial color="white" />
     </mesh>
   );
@@ -174,24 +176,22 @@ function Player3D({ player }: { player: Player }) {
 
   return (
     <group position={[worldX, 0, worldZ]} onContextMenu={onClick} onDoubleClick={onClick}>
-      <mesh position={[0, 0.05, 0]} rotation-x={-Math.PI / 2}>
-        <circleGeometry args={[1.4, 24]} />
-        <meshBasicMaterial color="black" transparent opacity={0.28} />
-      </mesh>
       <mesh position={[0, 1.6, 0]} castShadow>
         <cylinderGeometry args={[0.85, 0.95, 2.6, 14]} />
-        <meshStandardMaterial color={teamColor} />
+        <meshStandardMaterial color={teamColor} roughness={0.6} />
       </mesh>
       <mesh position={[0, 3.35, 0]} castShadow>
         <sphereGeometry args={[0.7, 16, 16]} />
-        <meshStandardMaterial color={skin} />
+        <meshStandardMaterial color={skin} roughness={0.7} />
       </mesh>
       <Text
-        position={[0, 1.7, 0.95]}
+        position={[0, 1.7, 0.96]}
         fontSize={0.9}
         color="white"
         anchorX="center"
         anchorY="middle"
+        outlineWidth={0.04}
+        outlineColor="black"
       >
         {String(player.number)}
       </Text>
