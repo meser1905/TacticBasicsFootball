@@ -56,12 +56,19 @@ export function Equipment2D({ item, dimensions }: Props) {
     }
   };
 
+  const onContextMenu = (e: React.MouseEvent<SVGGElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    removeEquipment(item.id);
+  };
+
   return (
     <g
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
+      onContextMenu={onContextMenu}
       style={{
         cursor: tool === "eraser" ? "crosshair" : dragging ? "grabbing" : "grab",
         touchAction: "none",

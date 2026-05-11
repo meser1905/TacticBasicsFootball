@@ -250,9 +250,18 @@ function EquipmentMesh({ item, dims }: { item: EquipmentItem; dims: PitchDimensi
     }
   };
 
+  const onContextMenu = (e: {
+    stopPropagation: () => void;
+    nativeEvent?: { preventDefault?: () => void };
+  }) => {
+    e.stopPropagation();
+    e.nativeEvent?.preventDefault?.();
+    removeEquipment(item.id);
+  };
+
   if (item.type === "cone") {
     return (
-      <group position={[worldX, 0, worldZ]} onClick={onClick}>
+      <group position={[worldX, 0, worldZ]} onClick={onClick} onContextMenu={onContextMenu}>
         <mesh position={[0, 0.55 * scale, 0]} castShadow>
           <coneGeometry args={[0.55 * scale, 1.1 * scale, 12]} />
           <meshStandardMaterial color="#ff7a00" roughness={0.5} />
@@ -266,7 +275,7 @@ function EquipmentMesh({ item, dims }: { item: EquipmentItem; dims: PitchDimensi
   }
   if (item.type === "tallcone") {
     return (
-      <group position={[worldX, 0, worldZ]} onClick={onClick}>
+      <group position={[worldX, 0, worldZ]} onClick={onClick} onContextMenu={onContextMenu}>
         <mesh position={[0, 1 * scale, 0]} castShadow>
           <cylinderGeometry args={[0.08 * scale, 0.12 * scale, 2 * scale, 8]} />
           <meshStandardMaterial color="#ff7a00" />
@@ -280,7 +289,7 @@ function EquipmentMesh({ item, dims }: { item: EquipmentItem; dims: PitchDimensi
   }
   if (item.type === "hurdle") {
     return (
-      <group position={[worldX, 0, worldZ]} onClick={onClick}>
+      <group position={[worldX, 0, worldZ]} onClick={onClick} onContextMenu={onContextMenu}>
         <mesh position={[0, 0.5 * scale, 0]} castShadow>
           <boxGeometry args={[2 * scale, 0.1 * scale, 0.1 * scale]} />
           <meshStandardMaterial color="#fbbf24" />
@@ -298,7 +307,7 @@ function EquipmentMesh({ item, dims }: { item: EquipmentItem; dims: PitchDimensi
   }
   if (item.type === "minigoal") {
     return (
-      <group position={[worldX, 0, worldZ]} onClick={onClick}>
+      <group position={[worldX, 0, worldZ]} onClick={onClick} onContextMenu={onContextMenu}>
         <mesh position={[0, 0.6 * scale, 0]} castShadow>
           <boxGeometry args={[3 * scale, 0.08 * scale, 0.08 * scale]} />
           <meshStandardMaterial color="#ffffff" />
@@ -316,7 +325,7 @@ function EquipmentMesh({ item, dims }: { item: EquipmentItem; dims: PitchDimensi
   }
   if (item.type === "ladder") {
     return (
-      <group position={[worldX, 0, worldZ]} onClick={onClick}>
+      <group position={[worldX, 0, worldZ]} onClick={onClick} onContextMenu={onContextMenu}>
         {[-2, -1, 0, 1, 2].map((i) => (
           <mesh key={i} position={[0, 0.025 * scale, i * 0.6 * scale]}>
             <boxGeometry args={[1.4 * scale, 0.03 * scale, 0.06 * scale]} />
@@ -328,7 +337,7 @@ function EquipmentMesh({ item, dims }: { item: EquipmentItem; dims: PitchDimensi
   }
   if (item.type === "ball") {
     return (
-      <group position={[worldX, 0.4 * scale, worldZ]} onClick={onClick}>
+      <group position={[worldX, 0.4 * scale, worldZ]} onClick={onClick} onContextMenu={onContextMenu}>
         <mesh castShadow>
           <sphereGeometry args={[0.4 * scale, 18, 18]} />
           <meshStandardMaterial color="#ffffff" roughness={0.45} />
@@ -346,7 +355,7 @@ function EquipmentMesh({ item, dims }: { item: EquipmentItem; dims: PitchDimensi
   }
   if (item.type === "mannequin") {
     return (
-      <group position={[worldX, 0, worldZ]} onClick={onClick}>
+      <group position={[worldX, 0, worldZ]} onClick={onClick} onContextMenu={onContextMenu}>
         <mesh position={[0, 0.05 * scale, 0]}>
           <cylinderGeometry args={[0.55 * scale, 0.55 * scale, 0.1 * scale, 12]} />
           <meshStandardMaterial color="#1a1a1a" />
@@ -364,7 +373,7 @@ function EquipmentMesh({ item, dims }: { item: EquipmentItem; dims: PitchDimensi
   }
   if (item.type === "flag") {
     return (
-      <group position={[worldX, 0, worldZ]} onClick={onClick}>
+      <group position={[worldX, 0, worldZ]} onClick={onClick} onContextMenu={onContextMenu}>
         <mesh position={[0, 0.05 * scale, 0]}>
           <cylinderGeometry args={[0.32 * scale, 0.32 * scale, 0.1 * scale, 10]} />
           <meshStandardMaterial color="#1a1a1a" />
