@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { usePlayersStore } from "@/stores/playersStore";
+import { useEditorStore } from "@/stores/editorStore";
 import type { Player } from "@/types";
 
 const PITCH_W = 68;
@@ -14,30 +15,34 @@ type Props = {
 
 export function Player2D({ player }: Props) {
   const movePlayer = usePlayersStore((s) => s.movePlayer);
+  const setSelectedPlayer = useEditorStore((s) => s.setSelectedPlayer);
   const [dragging, setDragging] = useState(false);
+  const groupRef = useRef<SVGGElement>(null);
+  const moved = useRef(false);
 
   const cx = player.px * PITCH_W;
   const cy = player.py * PITCH_H;
 
   const fill =
-    player.team === "home"
-      ? "oklch(0.55 0.18 245)"
-      : "oklch(0.58 0.18 25)";
+    player.team === "home" ? "oklch(0.55 0.18 245)" : "oklch(0.58 0.18 25)";
   const stroke = "oklch(0.98 0 0)";
 
   const onPointerDown = (e: React.PointerEvent<SVGGElement>) => {
+    if (e.button === 2) return;
     setDragging(true);
+    moved.current = false;
     e.currentTarget.setPointerCapture(e.pointerId);
   };
 
   const onPointerMove = (e: React.PointerEvent<SVGGElement>) => {
     if (!dragging) return;
+    moved.current = true;
     const svg = e.currentTarget.ownerSVGElement;
     if (!svg) return;
     const pt = svg.createSVGPoint();
     pt.x = e.clientX;
     pt.y = e.clientY;
-    const ctm = svg.getScreenCTM();
+    const ctm = e.currentTarget.getScreenCTM();
     if (!ctm) return;
     const local = pt.matrixTransform(ctm.inverse());
     movePlayer(player.id, local.x / PITCH_W, local.y / PITCH_H);
@@ -50,20 +55,35 @@ export function Player2D({ player }: Props) {
     }
   };
 
+  const onContextMenu = (e: React.MouseEvent<SVGGElement>) => {
+    e.preventDefault();
+    setSelectedPlayer(player.id);
+  };
+
+  const onDoubleClick = (e: React.MouseEvent<SVGGElement>) => {
+    e.preventDefault();
+    setSelectedPlayer(player.id);
+  };
+
+  const label = player.name ? player.name : player.role;
+
   return (
     <g
+      ref={groupRef}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
+      onContextMenu={onContextMenu}
+      onDoubleClick={onDoubleClick}
       style={{ cursor: dragging ? "grabbing" : "grab", touchAction: "none" }}
     >
       <circle
         cx={cx}
-        cy={cy + PLAYER_R * 0.15}
+        cy={cy + PLAYER_R * 0.18}
         r={PLAYER_R * 0.95}
         fill="black"
-        opacity={dragging ? 0.35 : 0.2}
+        opacity={dragging ? 0.4 : 0.22}
       />
       <circle
         cx={cx}
@@ -72,7 +92,7 @@ export function Player2D({ player }: Props) {
         fill={fill}
         stroke={stroke}
         strokeWidth={0.3}
-        opacity={dragging ? 0.9 : 1}
+        opacity={dragging ? 0.92 : 1}
       />
       <text
         x={cx}
@@ -95,10 +115,10 @@ export function Player2D({ player }: Props) {
         fontSize={1.6}
         fontWeight={600}
         pointerEvents="none"
-        opacity={0.9}
+        opacity={0.92}
         style={{ userSelect: "none" }}
       >
-        {player.role}
+        {label}
       </text>
     </g>
   );

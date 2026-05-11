@@ -1,30 +1,44 @@
 "use client";
 
 import { Pitch2D } from "@/components/pitch/Pitch2D";
+import { Pitch3D } from "@/components/pitch/Pitch3DLoader";
 import { FormationPicker } from "@/components/formations/FormationPicker";
+import { PlayerEditDialog } from "@/components/players/PlayerEditDialog";
+import { EditorToolbar } from "./EditorToolbar";
+import { useEditorStore } from "@/stores/editorStore";
 import { usePlayersStore } from "@/stores/playersStore";
 import { formations } from "@/lib/formations";
 
 export function Editor() {
   const homeId = usePlayersStore((s) => s.homeFormationId);
   const awayId = usePlayersStore((s) => s.awayFormationId);
+  const pitchMode = useEditorStore((s) => s.pitchMode);
+  const viewMode = useEditorStore((s) => s.viewMode);
+  const soloTeam = useEditorStore((s) => s.soloTeam);
 
   const home = formations.find((f) => f.id === homeId);
   const away = formations.find((f) => f.id === awayId);
 
+  const showHomeCard = viewMode === "versus" || soloTeam === "home";
+  const showAwayCard = viewMode === "versus" || soloTeam === "away";
+
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-4">
+      <EditorToolbar />
+
       <div className="flex flex-wrap items-center gap-3">
-        <FormationPicker team="home" />
-        <FormationPicker team="away" />
+        {showHomeCard && <FormationPicker team="home" />}
+        {showAwayCard && <FormationPicker team="away" />}
       </div>
 
-      <Pitch2D />
+      {pitchMode === "2d" ? <Pitch2D /> : <Pitch3D />}
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <FormationCard label="Local" formation={home} accent="blue" />
-        <FormationCard label="Visitante" formation={away} accent="red" />
+        {showHomeCard && home && <FormationCard label="Local" formation={home} accent="blue" />}
+        {showAwayCard && away && <FormationCard label="Visitante" formation={away} accent="red" />}
       </div>
+
+      <PlayerEditDialog />
     </div>
   );
 }
@@ -42,10 +56,9 @@ function FormationCard({
   accent,
 }: {
   label: string;
-  formation: FormationSummary | undefined;
+  formation: FormationSummary;
   accent: "blue" | "red";
 }) {
-  if (!formation) return null;
   const dot = accent === "blue" ? "bg-blue-400" : "bg-red-400";
   return (
     <div className="rounded-lg border border-border bg-card/50 p-4">
