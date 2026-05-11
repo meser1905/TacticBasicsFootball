@@ -25,6 +25,7 @@ export function Pitch2D() {
   const appendStrokePoint = useBoardStore((s) => s.appendStrokePoint);
   const finishStroke = useBoardStore((s) => s.finishStroke);
   const addEquipment = useBoardStore((s) => s.addEquipment);
+  const selectedEquipmentType = useBoardStore((s) => s.selectedEquipmentType);
   const equipment = useBoardStore((s) => s.equipment);
 
   const svgRef = useRef<SVGSVGElement>(null);
@@ -65,7 +66,7 @@ export function Pitch2D() {
       startStroke({ x: p.x, y: p.y });
       svgRef.current?.setPointerCapture(e.pointerId);
     } else if (tool === "cone") {
-      addEquipment("cone", p.x / W, p.y / H);
+      addEquipment(selectedEquipmentType, p.x / W, p.y / H);
     }
   };
 

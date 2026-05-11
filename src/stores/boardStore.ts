@@ -11,11 +11,13 @@ function clamp(value: number, min = 0, max = 1): number {
 type BoardState = {
   tool: DrawingTool;
   color: string;
+  selectedEquipmentType: EquipmentType;
   strokes: DrawingStroke[];
   activeStroke: DrawingStroke | null;
   equipment: EquipmentItem[];
   setTool: (t: DrawingTool) => void;
   setColor: (c: string) => void;
+  selectEquipmentType: (t: EquipmentType) => void;
   startStroke: (point: { x: number; y: number }) => void;
   appendStrokePoint: (point: { x: number; y: number }) => void;
   finishStroke: () => void;
@@ -34,11 +36,13 @@ const PALETTE_DEFAULT = "#fbbf24";
 export const useBoardStore = create<BoardState>((set, get) => ({
   tool: "none",
   color: PALETTE_DEFAULT,
+  selectedEquipmentType: "cone",
   strokes: [],
   activeStroke: null,
   equipment: [],
   setTool: (tool) => set({ tool }),
   setColor: (color) => set({ color }),
+  selectEquipmentType: (type) => set({ selectedEquipmentType: type, tool: "cone" }),
   startStroke: (point) => {
     strokeCounter += 1;
     set({
