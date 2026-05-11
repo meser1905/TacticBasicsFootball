@@ -6,9 +6,9 @@ Guia tecnica para contribuir codigo al proyecto. Si sos entrenador y queres suma
 
 ```bash
 # 1. Fork del repo en GitHub, despues:
-git clone https://github.com/<tu-usuario>/tactic-basics-football.git
-cd tactic-basics-football
-git remote add upstream https://github.com/meser1905/tactic-basics-football.git
+git clone https://github.com/<tu-usuario>/TacticBasicsFootball.git
+cd TacticBasicsFootball
+git remote add upstream https://github.com/meser1905/TacticBasicsFootball.git
 
 # 2. Branch nuevo
 git checkout -b feat/mi-feature

@@ -1,6 +1,6 @@
 <div align="center">
 
-# TacticBasicsFootball
+<img src="public/readmelogo.png" alt="TacticBasicsFootball" width="520" />
 
 ### Free, open-source and modern football tactical board for coaches
 
@@ -11,7 +11,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06b6d4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-ff6b35.svg?style=flat-square)](CONTRIBUTING.md)
 
-**[Live demo](https://tacticbasicsfootball.vercel.app)** &nbsp;·&nbsp; **[Report bug](https://github.com/meser1905/tactic-basics-football/issues/new?template=bug_report.md)** &nbsp;·&nbsp; **[Request feature](https://github.com/meser1905/tactic-basics-football/issues/new?template=feature_request.md)**
+**[Live demo](https://tacticbasicsfootball.vercel.app)** &nbsp;·&nbsp; **[Report bug](https://github.com/meser1905/TacticBasicsFootball/issues/new?template=bug_report.md)** &nbsp;·&nbsp; **[Request feature](https://github.com/meser1905/TacticBasicsFootball/issues/new?template=feature_request.md)**
 
 **Read in other languages:** [Espanol](README.md) &nbsp;·&nbsp; [Portugues](README.pt.md)
 
@@ -65,8 +65,8 @@ TacticalPad and similar tools are great, but they are paid, outdated or too comp
 ## Quick start
 
 ```bash
-git clone https://github.com/meser1905/tactic-basics-football.git
-cd tactic-basics-football
+git clone https://github.com/meser1905/TacticBasicsFootball.git
+cd TacticBasicsFootball
 pnpm install
 pnpm dev
 ```

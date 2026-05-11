@@ -1,8 +1,6 @@
 <div align="center">
 
-<img src="public/og-image.png" alt="TacticBasicsFootball" width="100%" />
-
-# TacticBasicsFootball
+<img src="public/readmelogo.png" alt="TacticBasicsFootball" width="520" />
 
 ### Pizarra tactica de futbol gratis, open source y moderna para entrenadores
 
@@ -14,10 +12,10 @@
 [![Three.js](https://img.shields.io/badge/Three.js-r170-000000?style=flat-square&logo=three.js)](https://threejs.org)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-ff6b35.svg?style=flat-square)](CONTRIBUTING.md)
 
-[![Stars](https://img.shields.io/github/stars/meser1905/tactic-basics-football?style=social)](https://github.com/meser1905/tactic-basics-football/stargazers)
-[![Forks](https://img.shields.io/github/forks/meser1905/tactic-basics-football?style=social)](https://github.com/meser1905/tactic-basics-football/network/members)
+[![Stars](https://img.shields.io/github/stars/meser1905/TacticBasicsFootball?style=social)](https://github.com/meser1905/TacticBasicsFootball/stargazers)
+[![Forks](https://img.shields.io/github/forks/meser1905/TacticBasicsFootball?style=social)](https://github.com/meser1905/TacticBasicsFootball/network/members)
 
-**[Demo en vivo](https://tacticbasicsfootball.vercel.app)** &nbsp;·&nbsp; **[Reportar bug](https://github.com/meser1905/tactic-basics-football/issues/new?template=bug_report.md)** &nbsp;·&nbsp; **[Pedir feature](https://github.com/meser1905/tactic-basics-football/issues/new?template=feature_request.md)**
+**[Demo en vivo](https://tacticbasicsfootball.vercel.app)** &nbsp;·&nbsp; **[Reportar bug](https://github.com/meser1905/TacticBasicsFootball/issues/new?template=bug_report.md)** &nbsp;·&nbsp; **[Pedir feature](https://github.com/meser1905/TacticBasicsFootball/issues/new?template=feature_request.md)**
 
 **Leer en otros idiomas:** [English](README.en.md) &nbsp;·&nbsp; [Portugues](README.pt.md)
 
@@ -79,8 +77,8 @@ TacticalPad y similares son geniales, pero son pagos, viejos o complicados de us
 
 ```bash
 # 1. Clonar
-git clone https://github.com/meser1905/tactic-basics-football.git
-cd tactic-basics-football
+git clone https://github.com/meser1905/TacticBasicsFootball.git
+cd TacticBasicsFootball
 
 # 2. Instalar dependencias
 pnpm install
@@ -141,7 +139,7 @@ Toda contribucion es bienvenida. Si queres sumar una formacion, un ejercicio de 
 Tres formas faciles de empezar:
 
 1. :star: **Dale una estrella al repo** si te gusta la idea (es gratis y ayuda muchisimo).
-2. :soccer: **Sumar una formacion**: usa el [template de issue](https://github.com/meser1905/tactic-basics-football/issues/new?template=new_formation.md) y mandanos los datos.
+2. :soccer: **Sumar una formacion**: usa el [template de issue](https://github.com/meser1905/TacticBasicsFootball/issues/new?template=new_formation.md) y mandanos los datos.
 3. :bug: **Reporta un bug** o pedi una feature con los templates correspondientes.
 
 Tambien tenemos un [Code of Conduct](CODE_OF_CONDUCT.md) para que todos la pasemos bien.

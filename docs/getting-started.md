@@ -12,8 +12,8 @@ Guia rapida para levantar TacticBasicsFootball local y empezar a trabajar.
 
 ```bash
 # 1. Clonar el repo
-git clone https://github.com/meser1905/tactic-basics-football.git
-cd tactic-basics-football
+git clone https://github.com/meser1905/TacticBasicsFootball.git
+cd TacticBasicsFootball
 
 # 2. Instalar dependencias
 pnpm install

@@ -5,13 +5,13 @@
   "description": "Pizarra tactica de futbol gratis, open source y moderna para entrenadores. Editor 2D y 3D, grabacion de jugadas, biblioteca de entrenamientos.",
   "license": "MIT",
   "author": "meser1905",
-  "homepage": "https://github.com/meser1905/tactic-basics-football",
+  "homepage": "https://github.com/meser1905/TacticBasicsFootball",
   "repository": {
     "type": "git",
-    "url": "https://github.com/meser1905/tactic-basics-football.git"
+    "url": "https://github.com/meser1905/TacticBasicsFootball.git"
   },
   "bugs": {
-    "url": "https://github.com/meser1905/tactic-basics-football/issues"
+    "url": "https://github.com/meser1905/TacticBasicsFootball/issues"
   },
   "keywords": [
     "football",

@@ -1,6 +1,6 @@
 <div align="center">
 
-# TacticBasicsFootball
+<img src="public/readmelogo.png" alt="TacticBasicsFootball" width="520" />
 
 ### Quadro tatico de futebol gratis, open source e moderno para treinadores
 
@@ -10,7 +10,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178c6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-ff6b35.svg?style=flat-square)](CONTRIBUTING.md)
 
-**[Demo ao vivo](https://tacticbasicsfootball.vercel.app)** &nbsp;·&nbsp; **[Reportar bug](https://github.com/meser1905/tactic-basics-football/issues/new?template=bug_report.md)**
+**[Demo ao vivo](https://tacticbasicsfootball.vercel.app)** &nbsp;·&nbsp; **[Reportar bug](https://github.com/meser1905/TacticBasicsFootball/issues/new?template=bug_report.md)**
 
 **Ler em outros idiomas:** [Espanol](README.md) &nbsp;·&nbsp; [English](README.en.md)
 
@@ -28,8 +28,8 @@ TacticalPad e similares sao otimos mas sao pagos, antigos ou complicados demais.
 ## Quick start
 
 ```bash
-git clone https://github.com/meser1905/tactic-basics-football.git
-cd tactic-basics-football
+git clone https://github.com/meser1905/TacticBasicsFootball.git
+cd TacticBasicsFootball
 pnpm install
 pnpm dev
 ```

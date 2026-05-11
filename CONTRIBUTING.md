@@ -84,6 +84,6 @@ Pensa siempre en el usuario final: un entrenador, no un developer. Tres principi
 
 ## Dudas
 
-Abri un issue con la etiqueta `question` o entra a las [Discussions](https://github.com/meser1905/tactic-basics-football/discussions).
+Abri un issue con la etiqueta `question` o entra a las [Discussions](https://github.com/meser1905/TacticBasicsFootball/discussions).
 
 Gracias por sumar :soccer:
