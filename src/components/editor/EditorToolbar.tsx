@@ -145,13 +145,13 @@ function FormatSelector({
     <div className="relative">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex items-center gap-2 rounded-md border border-primary/40 bg-primary/15 px-3 py-1.5 text-xs font-bold text-primary-foreground transition hover:bg-primary/25"
+        className="inline-flex items-center gap-2 rounded-md bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground shadow-sm transition hover:opacity-90"
         aria-haspopup="listbox"
         aria-expanded={open}
       >
-        <span className="text-[10px] uppercase tracking-wider opacity-70">Formato</span>
+        <span className="text-[10px] uppercase tracking-wider opacity-80">Formato</span>
         <span>{currentDims.label}</span>
-        <ChevronDown className="h-3.5 w-3.5 opacity-70" />
+        <ChevronDown className="h-3.5 w-3.5 opacity-80" />
       </button>
 
       {open && (
