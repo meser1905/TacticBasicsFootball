@@ -6,14 +6,14 @@ export function Header() {
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2" aria-label="TacticBasicsFootball home">
+        <Link href="/" className="flex items-center" aria-label="TacticBasicsFootball home">
           <Image
-            src="/readmelogo.png"
+            src="/logo.png"
             alt="TacticBasicsFootball"
-            width={520}
-            height={195}
+            width={760}
+            height={285}
             priority
-            className="h-9 w-auto"
+            className="h-11 w-auto sm:h-12"
           />
         </Link>
 
