@@ -2,10 +2,13 @@ import { create } from "zustand";
 import type { Formation, Player, PlayerRole, Side } from "@/types";
 import { formation442 } from "@/lib/formations";
 
+const TEAM_LENGTH_SCALE = 0.94;
+
 function buildPlayersFromFormation(formation: Formation, team: Side): Player[] {
   return formation.slots.map((slot, idx) => {
     const px = slot.y;
-    const py = team === "home" ? 1 - slot.x : slot.x;
+    const scaledX = slot.x * TEAM_LENGTH_SCALE;
+    const py = team === "home" ? 1 - scaledX : scaledX;
     return {
       id: `${team}-${idx + 1}`,
       team,
