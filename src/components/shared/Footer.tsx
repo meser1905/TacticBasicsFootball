@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Github, Heart, Coffee, BookOpen, Bug, GitPullRequest, Scale } from "lucide-react";
+import { Github, Heart, BookOpen, Bug, GitPullRequest, Scale } from "lucide-react";
 
 const REPO = "https://github.com/meser1905/TacticBasicsFootball";
 
@@ -8,7 +8,7 @@ export function Footer() {
   return (
     <footer className="mt-20 border-t border-border bg-card/30">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-        <div className="grid gap-10 md:grid-cols-3">
+        <div className="grid gap-10 md:grid-cols-2">
           <div>
             <Link href="/" className="inline-flex items-center" aria-label="TacticBasicsFootball home">
               <Image
@@ -19,7 +19,7 @@ export function Footer() {
                 className="h-10 w-auto"
               />
             </Link>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
               Pizarra tactica de futbol gratis, open source y moderna. Pensada para entrenadores
               que quieren disenar jugadas sin complicarse.
             </p>
@@ -29,7 +29,7 @@ export function Footer() {
             <h3 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
               Proyecto
             </h3>
-            <ul className="mt-4 space-y-3 text-sm">
+            <ul className="mt-4 grid grid-cols-2 gap-3 text-sm">
               <li>
                 <a
                   href={REPO}
@@ -38,7 +38,7 @@ export function Footer() {
                   className="inline-flex items-center gap-2 text-foreground/80 transition hover:text-foreground"
                 >
                   <Github className="h-3.5 w-3.5 text-muted-foreground" />
-                  Repositorio en GitHub
+                  GitHub
                 </a>
               </li>
               <li>
@@ -49,7 +49,7 @@ export function Footer() {
                   className="inline-flex items-center gap-2 text-foreground/80 transition hover:text-foreground"
                 >
                   <Bug className="h-3.5 w-3.5 text-muted-foreground" />
-                  Reportar un bug
+                  Reportar bug
                 </a>
               </li>
               <li>
@@ -73,45 +73,6 @@ export function Footer() {
                 </Link>
               </li>
             </ul>
-          </div>
-
-          <div>
-            <h3 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-              Apoyar el proyecto
-            </h3>
-            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              Si TacticBasicsFootball te ayuda en tu trabajo de DT o como dev, podes apoyar el
-              desarrollo. La estrella en GitHub tambien suma muchisimo.
-            </p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <a
-                href="https://github.com/sponsors/meser1905"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground transition hover:bg-secondary"
-              >
-                <Heart className="h-3.5 w-3.5 text-pink-400" />
-                Sponsors
-              </a>
-              <a
-                href="https://cafecito.app/meser1905"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground transition hover:bg-secondary"
-              >
-                <Coffee className="h-3.5 w-3.5 text-amber-400" />
-                Cafecito
-              </a>
-              <a
-                href="https://ko-fi.com/meser1905"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground transition hover:bg-secondary"
-              >
-                <Coffee className="h-3.5 w-3.5 text-sky-400" />
-                Ko-fi
-              </a>
-            </div>
           </div>
         </div>
 
