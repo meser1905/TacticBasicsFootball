@@ -1,7 +1,9 @@
 "use client";
 
-import { Canvas } from "@react-three/fiber";
+import { useEffect, useState } from "react";
+import { Canvas, useThree, type ThreeEvent } from "@react-three/fiber";
 import { OrbitControls, Text } from "@react-three/drei";
+import { Plane as ThreePlane, Raycaster, Vector2, Vector3 } from "three";
 import { usePlayersStore } from "@/stores/playersStore";
 import { useEditorStore } from "@/stores/editorStore";
 import { PITCH_DIMENSIONS, type PitchDimensions } from "@/lib/pitchDimensions";
@@ -10,12 +12,18 @@ import type { Player } from "@/types";
 const LINE_Y = 0.05;
 const ZONE_Y = 0.04;
 
+const DRAG_PLANE = new ThreePlane(new Vector3(0, 1, 0), 0);
+const dragRaycaster = new Raycaster();
+const tempNdc = new Vector2();
+const tempHit = new Vector3();
+
 export function Pitch3D() {
   const players = usePlayersStore((s) => s.players);
   const viewMode = useEditorStore((s) => s.viewMode);
   const soloTeam = useEditorStore((s) => s.soloTeam);
   const format = useEditorStore((s) => s.pitchFormat);
   const showZones = useEditorStore((s) => s.showZones);
+  const isDraggingPlayer = useEditorStore((s) => s.isDraggingPlayer);
 
   const dims = PITCH_DIMENSIONS[format];
   const visible = viewMode === "versus" ? players : players.filter((p) => p.team === soloTeam);
@@ -52,6 +60,7 @@ export function Pitch3D() {
           <Player3D key={p.id} player={p} dims={dims} />
         ))}
         <OrbitControls
+          enabled={!isDraggingPlayer}
           target={[0, 0, 0]}
           maxPolarAngle={Math.PI / 2 - 0.05}
           minDistance={dims.length * 0.3}
@@ -213,7 +222,12 @@ function Zones3D({ dims }: { dims: PitchDimensions }) {
 }
 
 function Player3D({ player, dims }: { player: Player; dims: PitchDimensions }) {
+  const { camera, gl } = useThree();
   const setSelectedPlayer = useEditorStore((s) => s.setSelectedPlayer);
+  const setDraggingPlayer = useEditorStore((s) => s.setDraggingPlayer);
+  const movePlayer = usePlayersStore((s) => s.movePlayer);
+  const [dragging, setDragging] = useState(false);
+
   const worldX = (player.px - 0.5) * dims.width;
   const worldZ = (player.py - 0.5) * dims.length;
   const teamColor = player.team === "home" ? "#3b7ce8" : "#e8523b";
@@ -224,16 +238,70 @@ function Player3D({ player, dims }: { player: Player; dims: PitchDimensions }) {
   const bodyH = 2.6 * scale;
   const headR = 0.7 * scale;
 
-  const onClick = (e: { stopPropagation: () => void }) => {
+  useEffect(() => {
+    if (!dragging) return;
+
+    const handleMove = (e: PointerEvent) => {
+      const rect = gl.domElement.getBoundingClientRect();
+      tempNdc.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      tempNdc.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+      dragRaycaster.setFromCamera(tempNdc, camera);
+      const hit = dragRaycaster.ray.intersectPlane(DRAG_PLANE, tempHit);
+      if (hit) {
+        const px = tempHit.x / dims.width + 0.5;
+        const py = tempHit.z / dims.length + 0.5;
+        movePlayer(player.id, px, py);
+      }
+    };
+
+    const handleUp = () => {
+      setDragging(false);
+      setDraggingPlayer(false);
+    };
+
+    window.addEventListener("pointermove", handleMove);
+    window.addEventListener("pointerup", handleUp);
+    window.addEventListener("pointercancel", handleUp);
+    return () => {
+      window.removeEventListener("pointermove", handleMove);
+      window.removeEventListener("pointerup", handleUp);
+      window.removeEventListener("pointercancel", handleUp);
+    };
+  }, [dragging, camera, gl, dims, movePlayer, player.id, setDraggingPlayer]);
+
+  const onPointerDown = (e: ThreeEvent<PointerEvent>) => {
+    if (e.button === 2) return;
+    e.stopPropagation();
+    setDragging(true);
+    setDraggingPlayer(true);
+  };
+
+  const onContextMenu = (e: ThreeEvent<MouseEvent>) => {
+    e.stopPropagation();
+    e.nativeEvent.preventDefault?.();
+    setSelectedPlayer(player.id);
+  };
+
+  const onDoubleClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     setSelectedPlayer(player.id);
   };
 
   return (
-    <group position={[worldX, 0, worldZ]} onContextMenu={onClick} onDoubleClick={onClick}>
+    <group
+      position={[worldX, 0, worldZ]}
+      onPointerDown={onPointerDown}
+      onContextMenu={onContextMenu}
+      onDoubleClick={onDoubleClick}
+    >
       <mesh position={[0, bodyH / 2, 0]} castShadow>
         <cylinderGeometry args={[bodyR, bodyR * 1.1, bodyH, 14]} />
-        <meshStandardMaterial color={teamColor} roughness={0.6} />
+        <meshStandardMaterial
+          color={teamColor}
+          roughness={0.6}
+          emissive={dragging ? teamColor : "#000000"}
+          emissiveIntensity={dragging ? 0.3 : 0}
+        />
       </mesh>
       <mesh position={[0, bodyH + headR * 0.9, 0]} castShadow>
         <sphereGeometry args={[headR, 16, 16]} />

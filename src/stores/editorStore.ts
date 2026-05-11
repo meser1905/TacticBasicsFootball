@@ -16,6 +16,7 @@ type EditorState = {
   soloTeam: Side;
   showZones: boolean;
   selectedPlayerId: string | null;
+  isDraggingPlayer: boolean;
   setPitchMode: (mode: PitchRenderMode) => void;
   togglePitchMode: () => void;
   setPitchOrientation: (orientation: PitchOrientation) => void;
@@ -25,6 +26,7 @@ type EditorState = {
   setSoloTeam: (team: Side) => void;
   toggleZones: () => void;
   setSelectedPlayer: (id: string | null) => void;
+  setDraggingPlayer: (v: boolean) => void;
 };
 
 export const useEditorStore = create<EditorState>((set, get) => ({
@@ -35,6 +37,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   soloTeam: "home",
   showZones: false,
   selectedPlayerId: null,
+  isDraggingPlayer: false,
   setPitchMode: (mode) => set({ pitchMode: mode }),
   togglePitchMode: () => set((s) => ({ pitchMode: s.pitchMode === "2d" ? "3d" : "2d" })),
   setPitchOrientation: (orientation) => set({ pitchOrientation: orientation }),
@@ -54,4 +57,5 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   setSoloTeam: (team) => set({ soloTeam: team }),
   toggleZones: () => set((s) => ({ showZones: !s.showZones })),
   setSelectedPlayer: (id) => set({ selectedPlayerId: id }),
+  setDraggingPlayer: (v) => set({ isDraggingPlayer: v }),
 }));
