@@ -12,11 +12,11 @@ export function Footer() {
           <div>
             <Link href="/" className="inline-flex items-center" aria-label="TacticBasicsFootball home">
               <Image
-                src="/logo.png"
+                src="/logo.svg"
                 alt="TacticBasicsFootball"
-                width={520}
-                height={195}
-                className="h-24 w-auto sm:h-32"
+                width={760}
+                height={285}
+                className="h-20 w-auto sm:h-24"
               />
             </Link>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">

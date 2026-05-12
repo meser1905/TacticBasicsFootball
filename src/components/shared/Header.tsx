@@ -8,12 +8,12 @@ export function Header() {
       <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-4 sm:h-28">
         <Link href="/" className="flex items-center" aria-label="TacticBasicsFootball home">
           <Image
-            src="/logo.png"
+            src="/logo.svg"
             alt="TacticBasicsFootball"
             width={760}
             height={285}
             priority
-            className="h-20 w-auto sm:h-24"
+            className="h-16 w-auto sm:h-20"
           />
         </Link>
 

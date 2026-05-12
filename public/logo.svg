@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 285" fill="none" role="img" aria-label="TacticBasicsFootball">
+  <g transform="translate(28 44)">
+    <g stroke="#9ca3af" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <rect x="2" y="12" width="164" height="184" rx="14" stroke-width="3.5"/>
+      <rect x="63" y="2" width="42" height="22" rx="4" stroke-width="3"/>
+      <rect x="18" y="32" width="132" height="156" rx="2" stroke-width="2"/>
+      <line x1="18" y1="110" x2="150" y2="110" stroke-width="2"/>
+      <circle cx="84" cy="110" r="17" stroke-width="2"/>
+      <circle cx="84" cy="110" r="1.6" fill="#9ca3af" stroke="none"/>
+      <rect x="50" y="32" width="68" height="24" stroke-width="2"/>
+      <rect x="64" y="32" width="40" height="11" stroke-width="2"/>
+      <rect x="50" y="164" width="68" height="24" stroke-width="2"/>
+      <rect x="64" y="177" width="40" height="11" stroke-width="2"/>
+    </g>
+
+    <g fill="#22c55e" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="15">
+      <text x="30" y="76">x</text>
+      <text x="78" y="72">x</text>
+      <text x="128" y="76">x</text>
+    </g>
+
+    <g stroke="#22c55e" stroke-width="2.2" fill="none">
+      <circle cx="40" cy="148" r="4.8"/>
+      <circle cx="84" cy="152" r="4.8"/>
+      <circle cx="128" cy="148" r="4.8"/>
+    </g>
+
+    <g stroke="#22c55e" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M 42 90 Q 64 112 80 134"/>
+      <path d="M 74 128 L 80 134 L 75 138"/>
+    </g>
+  </g>
+
+  <text x="222" y="158"
+        font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+        font-size="64" font-weight="700" letter-spacing="-1.5">
+    <tspan fill="#e5e7eb">Tactic</tspan><tspan fill="#22c55e">Basics</tspan><tspan fill="#e5e7eb">Football</tspan>
+  </text>
+
+  <text x="224" y="196"
+        font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+        font-size="17" font-weight="600" fill="#9ca3af" letter-spacing="4.5">
+    OPEN SOURCE FOOTBALL TACTICS
+  </text>
+</svg>
