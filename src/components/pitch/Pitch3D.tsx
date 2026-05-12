@@ -497,21 +497,42 @@ function Player3D({ player, dims }: { player: Player; dims: PitchDimensions }) {
   const socksColor = player.team === "home" ? "#1e3a8a" : "#7f1d1d";
   const skinColor = "#e3b48a";
   const hairColor = "#241c14";
-  const bootsColor = "#0f0f0f";
+  const bootsColor = "#111111";
 
   const scale = Math.min(dims.width, dims.length) / 50;
-  const bootsR = 0.42 * scale;
-  const socksH = 0.5 * scale;
-  const shortsH = 0.7 * scale;
-  const shortsRTop = 0.62 * scale;
-  const shortsRBottom = 0.7 * scale;
-  const torsoH = 1.4 * scale;
-  const torsoRBottom = 0.55 * scale;
-  const torsoRTop = 0.72 * scale;
-  const neckR = 0.22 * scale;
-  const neckH = 0.18 * scale;
-  const headR = 0.5 * scale;
-  const labelHeight = (socksH + shortsH + torsoH + neckH + headR * 2) + 0.6 * scale;
+
+  const legR = 0.17 * scale;
+  const legOffset = legR * 1.35;
+  const bootH = 0.16 * scale;
+  const bootDepth = 0.55 * scale;
+  const bootWidth = 0.36 * scale;
+  const sockH = 0.42 * scale;
+  const thighH = 0.55 * scale;
+  const shortsH = 0.42 * scale;
+  const torsoH = 1.05 * scale;
+  const torsoRBottom = 0.42 * scale;
+  const torsoRTop = 0.6 * scale;
+  const armR = 0.14 * scale;
+  const upperArmH = 0.55 * scale;
+  const forearmH = 0.5 * scale;
+  const handR = 0.13 * scale;
+  const neckR = 0.18 * scale;
+  const neckH = 0.16 * scale;
+  const headR = 0.38 * scale;
+  const armAngle = 0.16;
+
+  const bootCenterY = bootH / 2;
+  const sockCenterY = bootH + sockH / 2;
+  const thighCenterY = bootH + sockH + thighH / 2;
+  const shortsBottomY = bootH + sockH + thighH;
+  const shortsCenterY = shortsBottomY + shortsH / 2;
+  const torsoBottomY = shortsBottomY + shortsH;
+  const torsoCenterY = torsoBottomY + torsoH / 2;
+  const shoulderY = torsoBottomY + torsoH;
+  const neckCenterY = shoulderY + neckH / 2;
+  const headCenterY = shoulderY + neckH + headR;
+  const hairCenterY = headCenterY + headR * 0.18;
+  const labelHeight = headCenterY + headR + 0.55 * scale;
 
   useEffect(() => {
     if (!dragging) return;
@@ -562,15 +583,11 @@ function Player3D({ player, dims }: { player: Player; dims: PitchDimensions }) {
     setSelectedPlayer(player.id);
   };
 
-  const bootsY = bootsR * 0.5;
-  const socksY = bootsR + socksH / 2;
-  const shortsY = bootsR + socksH + shortsH / 2;
-  const torsoY = bootsR + socksH + shortsH + torsoH / 2;
-  const neckY = bootsR + socksH + shortsH + torsoH + neckH / 2;
-  const headY = bootsR + socksH + shortsH + torsoH + neckH + headR * 0.95;
-  const hairY = headY + headR * 0.15;
-
   const labelText = (player.name ? player.name : player.role).toUpperCase();
+  const sides: { dir: number; key: string }[] = [
+    { dir: -1, key: "L" },
+    { dir: 1, key: "R" },
+  ];
 
   return (
     <group
@@ -579,22 +596,29 @@ function Player3D({ player, dims }: { player: Player; dims: PitchDimensions }) {
       onContextMenu={onContextMenu}
       onDoubleClick={onDoubleClick}
     >
-      <mesh position={[0, bootsY, 0]} castShadow>
-        <cylinderGeometry args={[bootsR, bootsR * 1.05, bootsR, 14]} />
-        <meshStandardMaterial color={bootsColor} roughness={0.55} />
-      </mesh>
+      {sides.map(({ dir, key }) => (
+        <group key={`leg-${key}`} position={[dir * legOffset, 0, 0]}>
+          <mesh position={[0, bootCenterY, bootDepth * 0.2]} castShadow>
+            <boxGeometry args={[bootWidth, bootH, bootDepth]} />
+            <meshStandardMaterial color={bootsColor} roughness={0.55} />
+          </mesh>
+          <mesh position={[0, sockCenterY, 0]} castShadow>
+            <cylinderGeometry args={[legR * 1.05, legR * 1.15, sockH, 12]} />
+            <meshStandardMaterial color={socksColor} roughness={0.85} />
+          </mesh>
+          <mesh position={[0, thighCenterY, 0]} castShadow>
+            <cylinderGeometry args={[legR * 1.15, legR * 1.05, thighH, 12]} />
+            <meshStandardMaterial color={skinColor} roughness={0.7} />
+          </mesh>
+        </group>
+      ))}
 
-      <mesh position={[0, socksY, 0]} castShadow>
-        <cylinderGeometry args={[bootsR * 0.95, bootsR * 0.85, socksH, 14]} />
-        <meshStandardMaterial color={socksColor} roughness={0.85} />
-      </mesh>
-
-      <mesh position={[0, shortsY, 0]} castShadow>
-        <cylinderGeometry args={[shortsRTop, shortsRBottom, shortsH, 16]} />
+      <mesh position={[0, shortsCenterY, 0]} castShadow>
+        <cylinderGeometry args={[torsoRBottom * 1.05, torsoRBottom * 1.15, shortsH, 16]} />
         <meshStandardMaterial color={shortsColor} roughness={0.7} />
       </mesh>
 
-      <mesh position={[0, torsoY, 0]} castShadow>
+      <mesh position={[0, torsoCenterY, 0]} castShadow>
         <cylinderGeometry args={[torsoRTop, torsoRBottom, torsoH, 18]} />
         <meshStandardMaterial
           color={teamColor}
@@ -605,29 +629,48 @@ function Player3D({ player, dims }: { player: Player; dims: PitchDimensions }) {
         />
       </mesh>
 
-      <mesh position={[0, torsoY + torsoH * 0.2, 0]} castShadow>
-        <torusGeometry args={[torsoRTop * 0.95, torsoRTop * 0.12, 8, 24]} />
+      <mesh position={[0, torsoBottomY + torsoH * 0.78, 0]} castShadow>
+        <torusGeometry args={[torsoRTop * 0.92, torsoRTop * 0.1, 8, 24]} />
         <meshStandardMaterial color={teamHighlight} roughness={0.5} />
       </mesh>
 
-      <mesh position={[0, neckY, 0]} castShadow>
+      {sides.map(({ dir, key }) => (
+        <group
+          key={`arm-${key}`}
+          position={[dir * (torsoRTop + armR * 0.4), shoulderY - armR * 0.3, 0]}
+          rotation={[0, 0, dir * armAngle]}
+        >
+          <mesh position={[0, -upperArmH / 2, 0]} castShadow>
+            <cylinderGeometry args={[armR, armR * 0.9, upperArmH, 12]} />
+            <meshStandardMaterial
+              color={teamColor}
+              roughness={0.55}
+              metalness={0.1}
+            />
+          </mesh>
+          <mesh position={[0, -upperArmH - forearmH / 2, 0]} castShadow>
+            <cylinderGeometry args={[armR * 0.85, armR * 0.75, forearmH, 12]} />
+            <meshStandardMaterial color={skinColor} roughness={0.7} />
+          </mesh>
+          <mesh position={[0, -upperArmH - forearmH, 0]} castShadow>
+            <sphereGeometry args={[handR, 14, 14]} />
+            <meshStandardMaterial color={skinColor} roughness={0.7} />
+          </mesh>
+        </group>
+      ))}
+
+      <mesh position={[0, neckCenterY, 0]} castShadow>
         <cylinderGeometry args={[neckR, neckR * 1.1, neckH, 12]} />
         <meshStandardMaterial color={skinColor} roughness={0.75} />
       </mesh>
 
-      <mesh position={[0, headY, 0]} castShadow>
+      <mesh position={[0, headCenterY, 0]} castShadow>
         <sphereGeometry args={[headR, 24, 24]} />
         <meshStandardMaterial color={skinColor} roughness={0.7} />
       </mesh>
 
-      <mesh
-        position={[0, hairY, 0]}
-        castShadow
-        rotation={[0, 0, 0]}
-      >
-        <sphereGeometry
-          args={[headR * 1.05, 24, 16, 0, Math.PI * 2, 0, Math.PI * 0.55]}
-        />
+      <mesh position={[0, hairCenterY, 0]} castShadow>
+        <sphereGeometry args={[headR * 1.05, 24, 16, 0, Math.PI * 2, 0, Math.PI * 0.55]} />
         <meshStandardMaterial color={hairColor} roughness={0.95} />
       </mesh>
 
