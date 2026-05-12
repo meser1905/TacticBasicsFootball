@@ -41,7 +41,7 @@ export function ZonesOverlay({ dimensions }: Props) {
             width={cellW}
             height={cellH}
             fill="none"
-            stroke="oklch(0.92 0.15 90)"
+            stroke="oklch(0.98 0 0)"
             strokeWidth={strokeWidth}
             strokeDasharray={`${strokeWidth * 4} ${strokeWidth * 2}`}
             opacity={0.55}
