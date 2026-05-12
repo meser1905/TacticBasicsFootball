@@ -629,11 +629,6 @@ function Player3D({ player, dims }: { player: Player; dims: PitchDimensions }) {
         />
       </mesh>
 
-      <mesh position={[0, torsoBottomY + torsoH * 0.78, 0]} castShadow>
-        <torusGeometry args={[torsoRTop * 0.92, torsoRTop * 0.1, 8, 24]} />
-        <meshStandardMaterial color={teamHighlight} roughness={0.5} />
-      </mesh>
-
       {sides.map(({ dir, key }) => (
         <group
           key={`arm-${key}`}
