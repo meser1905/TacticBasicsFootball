@@ -14,7 +14,7 @@ export function Footer() {
               <Image
                 src="/logo.svg"
                 alt="TacticBasicsFootball"
-                width={760}
+                width={880}
                 height={285}
                 className="h-20 w-auto sm:h-24"
               />
