@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Canvas, useThree, type ThreeEvent } from "@react-three/fiber";
-import { OrbitControls, Text } from "@react-three/drei";
+import { Billboard, OrbitControls, Text } from "@react-three/drei";
 import { Plane as ThreePlane, Raycaster, Shape as ThreeShape, Vector2, Vector3 } from "three";
 import { usePlayersStore } from "@/stores/playersStore";
 import { useEditorStore } from "@/stores/editorStore";
@@ -491,13 +491,27 @@ function Player3D({ player, dims }: { player: Player; dims: PitchDimensions }) {
 
   const worldX = (player.px - 0.5) * dims.width;
   const worldZ = (player.py - 0.5) * dims.length;
-  const teamColor = player.team === "home" ? "#3b7ce8" : "#e8523b";
-  const skin = "#e9c39a";
+  const teamColor = player.team === "home" ? "#1e40af" : "#b91c1c";
+  const teamHighlight = player.team === "home" ? "#3b82f6" : "#ef4444";
+  const shortsColor = "#f1f5f9";
+  const socksColor = player.team === "home" ? "#1e3a8a" : "#7f1d1d";
+  const skinColor = "#e3b48a";
+  const hairColor = "#241c14";
+  const bootsColor = "#0f0f0f";
 
   const scale = Math.min(dims.width, dims.length) / 50;
-  const bodyR = 0.85 * scale;
-  const bodyH = 2.6 * scale;
-  const headR = 0.7 * scale;
+  const bootsR = 0.42 * scale;
+  const socksH = 0.5 * scale;
+  const shortsH = 0.7 * scale;
+  const shortsRTop = 0.62 * scale;
+  const shortsRBottom = 0.7 * scale;
+  const torsoH = 1.4 * scale;
+  const torsoRBottom = 0.55 * scale;
+  const torsoRTop = 0.72 * scale;
+  const neckR = 0.22 * scale;
+  const neckH = 0.18 * scale;
+  const headR = 0.5 * scale;
+  const labelHeight = (socksH + shortsH + torsoH + neckH + headR * 2) + 0.6 * scale;
 
   useEffect(() => {
     if (!dragging) return;
@@ -548,6 +562,16 @@ function Player3D({ player, dims }: { player: Player; dims: PitchDimensions }) {
     setSelectedPlayer(player.id);
   };
 
+  const bootsY = bootsR * 0.5;
+  const socksY = bootsR + socksH / 2;
+  const shortsY = bootsR + socksH + shortsH / 2;
+  const torsoY = bootsR + socksH + shortsH + torsoH / 2;
+  const neckY = bootsR + socksH + shortsH + torsoH + neckH / 2;
+  const headY = bootsR + socksH + shortsH + torsoH + neckH + headR * 0.95;
+  const hairY = headY + headR * 0.15;
+
+  const labelText = (player.name ? player.name : player.role).toUpperCase();
+
   return (
     <group
       position={[worldX, 0, worldZ]}
@@ -555,30 +579,93 @@ function Player3D({ player, dims }: { player: Player; dims: PitchDimensions }) {
       onContextMenu={onContextMenu}
       onDoubleClick={onDoubleClick}
     >
-      <mesh position={[0, bodyH / 2, 0]} castShadow>
-        <cylinderGeometry args={[bodyR, bodyR * 1.1, bodyH, 14]} />
+      <mesh position={[0, bootsY, 0]} castShadow>
+        <cylinderGeometry args={[bootsR, bootsR * 1.05, bootsR, 14]} />
+        <meshStandardMaterial color={bootsColor} roughness={0.55} />
+      </mesh>
+
+      <mesh position={[0, socksY, 0]} castShadow>
+        <cylinderGeometry args={[bootsR * 0.95, bootsR * 0.85, socksH, 14]} />
+        <meshStandardMaterial color={socksColor} roughness={0.85} />
+      </mesh>
+
+      <mesh position={[0, shortsY, 0]} castShadow>
+        <cylinderGeometry args={[shortsRTop, shortsRBottom, shortsH, 16]} />
+        <meshStandardMaterial color={shortsColor} roughness={0.7} />
+      </mesh>
+
+      <mesh position={[0, torsoY, 0]} castShadow>
+        <cylinderGeometry args={[torsoRTop, torsoRBottom, torsoH, 18]} />
         <meshStandardMaterial
           color={teamColor}
-          roughness={0.6}
-          emissive={dragging ? teamColor : "#000000"}
-          emissiveIntensity={dragging ? 0.3 : 0}
+          roughness={0.55}
+          metalness={0.1}
+          emissive={dragging ? teamHighlight : "#000000"}
+          emissiveIntensity={dragging ? 0.35 : 0}
         />
       </mesh>
-      <mesh position={[0, bodyH + headR * 0.9, 0]} castShadow>
-        <sphereGeometry args={[headR, 16, 16]} />
-        <meshStandardMaterial color={skin} roughness={0.7} />
+
+      <mesh position={[0, torsoY + torsoH * 0.2, 0]} castShadow>
+        <torusGeometry args={[torsoRTop * 0.95, torsoRTop * 0.12, 8, 24]} />
+        <meshStandardMaterial color={teamHighlight} roughness={0.5} />
       </mesh>
-      <Text
-        position={[0, bodyH / 2, bodyR + 0.05]}
-        fontSize={bodyR * 1.1}
-        color="white"
-        anchorX="center"
-        anchorY="middle"
-        outlineWidth={0.04}
-        outlineColor="black"
+
+      <mesh position={[0, neckY, 0]} castShadow>
+        <cylinderGeometry args={[neckR, neckR * 1.1, neckH, 12]} />
+        <meshStandardMaterial color={skinColor} roughness={0.75} />
+      </mesh>
+
+      <mesh position={[0, headY, 0]} castShadow>
+        <sphereGeometry args={[headR, 24, 24]} />
+        <meshStandardMaterial color={skinColor} roughness={0.7} />
+      </mesh>
+
+      <mesh
+        position={[0, hairY, 0]}
+        castShadow
+        rotation={[0, 0, 0]}
       >
-        {String(player.number)}
-      </Text>
+        <sphereGeometry
+          args={[headR * 1.05, 24, 16, 0, Math.PI * 2, 0, Math.PI * 0.55]}
+        />
+        <meshStandardMaterial color={hairColor} roughness={0.95} />
+      </mesh>
+
+      <Billboard position={[0, labelHeight, 0]}>
+        <mesh position={[0, 0, -0.02]}>
+          <planeGeometry args={[1.6 * scale, 0.9 * scale]} />
+          <meshBasicMaterial color="#0a0a0a" transparent opacity={0.78} />
+        </mesh>
+        <mesh position={[-0.55 * scale, 0, -0.01]}>
+          <planeGeometry args={[0.5 * scale, 0.9 * scale]} />
+          <meshBasicMaterial color={teamColor} />
+        </mesh>
+        <Text
+          position={[-0.55 * scale, 0, 0]}
+          fontSize={0.6 * scale}
+          color="white"
+          anchorX="center"
+          anchorY="middle"
+          outlineWidth={0.02 * scale}
+          outlineColor="black"
+          fontWeight="bold"
+        >
+          {String(player.number)}
+        </Text>
+        <Text
+          position={[0.1 * scale, 0, 0]}
+          fontSize={0.32 * scale}
+          color="white"
+          anchorX="center"
+          anchorY="middle"
+          outlineWidth={0.015 * scale}
+          outlineColor="black"
+          maxWidth={1 * scale}
+          fontWeight="bold"
+        >
+          {labelText}
+        </Text>
+      </Billboard>
     </group>
   );
 }
